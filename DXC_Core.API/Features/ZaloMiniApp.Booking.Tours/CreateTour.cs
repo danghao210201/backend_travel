@@ -22,6 +22,7 @@ public static class CreateTour
         public int MaxParticipants { get; set; } = 20;
         public int ThuTu { get; set; } = 0;
         public bool IsActive { get; set; } = true;
+        public List<TourImageDto>? Images { get; set; }
     }
 
     public class Validator : AbstractValidator<Command>
@@ -61,6 +62,22 @@ public static class CreateTour
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow
             };
+
+            if (request.Images != null && request.Images.Any())
+            {
+                foreach (var img in request.Images)
+                {
+                    tour.Images.Add(new TourImage
+                    {
+                        PublicId = Guid.NewGuid(),
+                        ImageUrl = img.ImageUrl,
+                        ImagePublicId = img.ImagePublicId,
+                        DisplayOrder = img.DisplayOrder,
+                        IsPrimary = img.IsPrimary,
+                        Caption = img.Caption
+                    });
+                }
+            }
 
             _context.Tours.Add(tour);
             await _context.SaveChangesAsync(cancellationToken);

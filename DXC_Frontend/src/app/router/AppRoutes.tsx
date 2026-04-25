@@ -40,6 +40,8 @@ import { IconGroupListPage, IconGroupCreatePage, IconGroupDetailPage, IconGroupE
 import { IconListPage, IconCreatePage, IconDetailPage, IconEditPage } from '@/features/icons'
 import { KhaoSatListPage, KhaoSatCreatePage, KhaoSatDetailPage, KhaoSatEditPage, KhaoSatStatisticsPage } from '@/features/khaosat'
 import { NewsListPage, NewsCreatePage, NewsDetailPage, NewsEditPage } from '@/features/news'
+import { TourListPage, TourCreatePage, TourDetailPage, TourEditPage } from '@/features/tours'
+import { OrderListPage, OrderDetailPage, OrderEditPage } from '@/features/orders'
 
 // Protected Route component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -804,6 +806,17 @@ export const AppRoutes = () => {
             </ProtectedRoute>
           }
         />
+
+        {/* Orders routes */}
+        <Route path="/orders" element={<ProtectedRoute><OrderListPage /></ProtectedRoute>} />
+        <Route path="/orders/:id" element={<ProtectedRoute><OrderDetailPage /></ProtectedRoute>} />
+        <Route path="/orders/:id/edit" element={<ProtectedRoute><OrderEditPage /></ProtectedRoute>} />
+
+        {/* Tours routes */}
+        <Route path="/tours" element={<ProtectedRoute><TourListPage /></ProtectedRoute>} />
+        <Route path="/tours/create" element={<ProtectedRoute><TourCreatePage /></ProtectedRoute>} />
+        <Route path="/tours/:id" element={<ProtectedRoute><TourDetailPage /></ProtectedRoute>} />
+        <Route path="/tours/:id/edit" element={<ProtectedRoute><TourEditPage /></ProtectedRoute>} />
 
         {/* News routes */}
         <Route

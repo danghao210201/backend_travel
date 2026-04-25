@@ -23,6 +23,7 @@ public static class UpdateTour
         public int MaxParticipants { get; set; }
         public int ThuTu { get; set; }
         public bool IsActive { get; set; }
+        public List<TourImageDto>? Images { get; set; }
     }
 
     public class Validator : AbstractValidator<Command>
@@ -46,7 +47,9 @@ public static class UpdateTour
 
         public async Task<ApiResult<TourDto>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var tour = await _context.Tours.FirstOrDefaultAsync(x => x.PublicId == request.PublicId, cancellationToken);
+            var tour = await _context.Tours
+                .Include(t => t.Images)
+                .FirstOrDefaultAsync(x => x.PublicId == request.PublicId, cancellationToken);
             
             if (tour == null)
             {
@@ -66,6 +69,25 @@ public static class UpdateTour
             tour.ThuTu = request.ThuTu;
             tour.IsActive = request.IsActive;
             tour.UpdatedAt = DateTime.UtcNow;
+
+            _context.TourImages.RemoveRange(tour.Images);
+            tour.Images.Clear();
+
+            if (request.Images != null && request.Images.Any())
+            {
+                foreach (var img in request.Images)
+                {
+                    tour.Images.Add(new Data.ZaloMiniAppContext.Models.Booking.TourImage
+                    {
+                        PublicId = Guid.NewGuid(),
+                        ImageUrl = img.ImageUrl,
+                        ImagePublicId = img.ImagePublicId,
+                        DisplayOrder = img.DisplayOrder,
+                        IsPrimary = img.IsPrimary,
+                        Caption = img.Caption
+                    });
+                }
+            }
 
             await _context.SaveChangesAsync(cancellationToken);
 

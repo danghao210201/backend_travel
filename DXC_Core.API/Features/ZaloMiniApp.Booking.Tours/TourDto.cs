@@ -23,7 +23,7 @@ public class TourDto
 
 public class TourImageDto
 {
-    public Guid PublicId { get; set; }
+    public Guid? PublicId { get; set; }
     public string ImageUrl { get; set; } = null!;
     public string ImagePublicId { get; set; } = null!;
     public int DisplayOrder { get; set; }

@@ -21,7 +21,9 @@ import {
   Phone,
   Image,
   Smile,
-  Newspaper
+  Newspaper,
+  Map,
+  ShoppingCart
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -267,6 +269,23 @@ const newsMenus: NavItemConfig[] = [
   },
 ]
 
+const bookingMenus: NavItemConfig[] = [
+  {
+    id: 'tours',
+    name: 'Quản lý Tour',
+    href: '/tours',
+    icon: Map,
+    roles: ['admin', generateRoleCodeFromMenuName('Quản lý Tour')],
+  },
+  {
+    id: 'orders',
+    name: 'Quản lý Đơn hàng',
+    href: '/orders',
+    icon: ShoppingCart,
+    roles: ['admin', generateRoleCodeFromMenuName('Quản lý Đơn hàng')],
+  },
+]
+
 const adminMenus: NavItemConfig[] = [
   {
     id: 'banners',
@@ -364,6 +383,15 @@ export const navigationConfig: NavItemConfig[] = [
     icon: Newspaper,
     roles: calculateParentRoles(newsMenus),
     children: newsMenus,
+  },
+
+  // Booking Management - Admin only
+  {
+    id: 'booking-management',
+    name: 'Quản lý Đặt Tour',
+    icon: Map,
+    roles: calculateParentRoles(bookingMenus),
+    children: bookingMenus,
   },
 
   // Hotline Management - Admin only
