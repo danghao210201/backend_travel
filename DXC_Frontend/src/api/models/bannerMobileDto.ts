@@ -19,4 +19,5 @@ export interface BannerMobileDto {
   nativeParams?: string | null
   /** @nullable */
   webLink?: string | null
+  thuTu?: number
 }

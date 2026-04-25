@@ -29,4 +29,6 @@ export interface CreateIconCommand {
   /** @nullable */
   linkIOS?: string | null
   displayOrder?: number
+  /** @nullable */
+  thuTu?: number | null
 }

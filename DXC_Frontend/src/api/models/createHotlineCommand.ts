@@ -13,4 +13,5 @@ export interface CreateHotlineCommand {
   contactName: string | null
   /** @nullable */
   description?: string | null
+  thuTu?: number
 }

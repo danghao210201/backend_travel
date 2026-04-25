@@ -15,5 +15,7 @@ export interface UpdateIconGroupCommand {
   displayOrder?: number
   isActive?: boolean
   /** @nullable */
+  thuTu?: number | null
+  /** @nullable */
   imagePublicId?: string | null
 }

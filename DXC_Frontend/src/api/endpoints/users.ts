@@ -18,6 +18,7 @@ import type {
   GetApiUsersRolesParams,
   PagedResultOfRoleDto,
   PagedResultOfUserWithRolesDto,
+  ResetUserPasswordCommand,
   UpdateRoleCommand,
   UpdateUserCommand,
   UpdateUserRolesCommand,
@@ -98,12 +99,12 @@ export const getUsers = () => {
   const getApiUsersPublicId = (publicId: string) => {
     return customRequest<ApiResultOfUserDto>({ url: `/api/users/${publicId}`, method: 'GET' })
   }
-  const postApiUsersResetPassword = (data: { publicId: string; newPassword: string }) => {
+  const postApiUsersResetPassword = (resetUserPasswordCommand: ResetUserPasswordCommand) => {
     return customRequest<ApiResult>({
       url: `/api/users/reset-password`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data,
+      data: resetUserPasswordCommand,
     })
   }
   return {
@@ -153,4 +154,7 @@ export type PostApiUsersRolesDeleteResult = NonNullable<
 >
 export type GetApiUsersPublicIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getUsers>['getApiUsersPublicId']>>
+>
+export type PostApiUsersResetPasswordResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getUsers>['postApiUsersResetPassword']>>
 >

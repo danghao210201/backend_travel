@@ -7,10 +7,14 @@
 import type {
   ApiResultOfFeedbackAdminDto,
   ApiResultOfFeedbackDetailMobileDto,
+  ApiResultOfFeedbackStatusCountsDto,
   CreateFeedbackMobileDto,
+  GetApiZaloMiniAppMobileFeedbackByStatusParams,
   GetApiZaloMiniAppMobileFeedbackHistoryParams,
+  GetApiZaloMiniAppMobileFeedbackPublicIdByStatusParams,
   GetApiZaloMiniAppMobileFeedbackPublicIdParams,
   GetApiZaloMiniAppMobileFeedbackPublicParams,
+  GetApiZaloMiniAppMobileFeedbackStatusCountsParams,
   PagedResultOfFeedbackMobileDto,
 } from '../models'
 
@@ -67,11 +71,42 @@ export const getFeedbackMobile = () => {
       params,
     })
   }
+  const getApiZaloMiniAppMobileFeedbackStatusCounts = (
+    params?: GetApiZaloMiniAppMobileFeedbackStatusCountsParams
+  ) => {
+    return customRequest<ApiResultOfFeedbackStatusCountsDto>({
+      url: `/api/zalo-mini-app/mobile/feedback/status-counts`,
+      method: 'GET',
+      params,
+    })
+  }
+  const getApiZaloMiniAppMobileFeedbackByStatus = (
+    params?: GetApiZaloMiniAppMobileFeedbackByStatusParams
+  ) => {
+    return customRequest<PagedResultOfFeedbackMobileDto>({
+      url: `/api/zalo-mini-app/mobile/feedback/by-status`,
+      method: 'GET',
+      params,
+    })
+  }
+  const getApiZaloMiniAppMobileFeedbackPublicIdByStatus = (
+    publicId: string,
+    params?: GetApiZaloMiniAppMobileFeedbackPublicIdByStatusParams
+  ) => {
+    return customRequest<ApiResultOfFeedbackDetailMobileDto>({
+      url: `/api/zalo-mini-app/mobile/feedback/${publicId}/by-status`,
+      method: 'GET',
+      params,
+    })
+  }
   return {
     postApiZaloMiniAppMobileFeedbackCreate,
     getApiZaloMiniAppMobileFeedbackPublic,
     getApiZaloMiniAppMobileFeedbackHistory,
     getApiZaloMiniAppMobileFeedbackPublicId,
+    getApiZaloMiniAppMobileFeedbackStatusCounts,
+    getApiZaloMiniAppMobileFeedbackByStatus,
+    getApiZaloMiniAppMobileFeedbackPublicIdByStatus,
   }
 }
 export type PostApiZaloMiniAppMobileFeedbackCreateResult = NonNullable<
@@ -90,5 +125,22 @@ export type GetApiZaloMiniAppMobileFeedbackHistoryResult = NonNullable<
 export type GetApiZaloMiniAppMobileFeedbackPublicIdResult = NonNullable<
   Awaited<
     ReturnType<ReturnType<typeof getFeedbackMobile>['getApiZaloMiniAppMobileFeedbackPublicId']>
+  >
+>
+export type GetApiZaloMiniAppMobileFeedbackStatusCountsResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getFeedbackMobile>['getApiZaloMiniAppMobileFeedbackStatusCounts']>
+  >
+>
+export type GetApiZaloMiniAppMobileFeedbackByStatusResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getFeedbackMobile>['getApiZaloMiniAppMobileFeedbackByStatus']>
+  >
+>
+export type GetApiZaloMiniAppMobileFeedbackPublicIdByStatusResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getFeedbackMobile>['getApiZaloMiniAppMobileFeedbackPublicIdByStatus']
+    >
   >
 >

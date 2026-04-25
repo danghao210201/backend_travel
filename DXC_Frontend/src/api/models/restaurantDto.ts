@@ -30,8 +30,7 @@ export interface RestaurantDto {
   category?: string | null
   /** @nullable */
   averagePriceRange?: string | null
-  /** @nullable */
-  thuTu?: number | null
+  thuTu?: number
   isActive?: boolean
   createdAt?: string
   updatedAt?: string

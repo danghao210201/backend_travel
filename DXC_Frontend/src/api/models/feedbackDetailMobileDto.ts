@@ -47,4 +47,10 @@ export interface FeedbackDetailMobileDto {
   attachments?: FeedbackAttachmentMobileDto[] | null
   /** @nullable */
   responses?: FeedbackResponseMobileDto[] | null
+  /** @nullable */
+  assignedDepartmentId?: number | null
+  /** @nullable */
+  assignedDepartmentCode?: string | null
+  /** @nullable */
+  assignedDepartmentName?: string | null
 }

@@ -13,4 +13,6 @@ export interface UpdateHotlineCommand {
   contactName: string | null
   /** @nullable */
   description?: string | null
+  /** @nullable */
+  thuTu?: number | null
 }

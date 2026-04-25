@@ -48,6 +48,7 @@ export interface IconDto {
   /** @nullable */
   linkIOS?: string | null
   displayOrder?: number
+  thuTu?: number
   isActive?: boolean
   createdAt?: string
   updatedAt?: string

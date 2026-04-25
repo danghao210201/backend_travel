@@ -12,6 +12,7 @@ import type {
   ChangePasswordCommand,
   LoginQuery,
   RegisterCommand,
+  ResetMyPasswordCommand,
 } from '../models'
 
 import { customRequest } from '../request'
@@ -44,12 +45,12 @@ export const getIdentity = () => {
       data: changePasswordCommand,
     })
   }
-  const postApiIdentityResetMyPassword = (data: { newPassword: string }) => {
+  const postApiIdentityResetMyPassword = (resetMyPasswordCommand: ResetMyPasswordCommand) => {
     return customRequest<ApiResult>({
       url: `/api/identity/reset-my-password`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      data,
+      data: resetMyPasswordCommand,
     })
   }
   return {
@@ -71,4 +72,7 @@ export type GetApiIdentityCurrentUserResult = NonNullable<
 >
 export type PostApiIdentityChangePasswordResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getIdentity>['postApiIdentityChangePassword']>>
+>
+export type PostApiIdentityResetMyPasswordResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getIdentity>['postApiIdentityResetMyPassword']>>
 >

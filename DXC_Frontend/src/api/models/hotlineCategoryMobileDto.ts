@@ -12,6 +12,7 @@ export interface HotlineCategoryMobileDto {
   name: string | null
   /** @nullable */
   description?: string | null
+  thuTu?: number
   /** @nullable */
   hotlines?: HotlineMobileDto[] | null
 }

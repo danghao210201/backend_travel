@@ -4,11 +4,24 @@
  * DXC_Core.API
  * OpenAPI spec version: 1.0
  */
-import type { ApiResultOfIconConfigDto, ApiResultOfListIconMobileDto } from '../models'
+import type {
+  ApiResultOfIconConfigDto,
+  ApiResultOfListIconMobileDto,
+  GetApiZaloMiniAppMobileServicesIconsIosRedirectParams,
+} from '../models'
 
 import { customRequest } from '../request'
 
 export const getIconManagementMobile = () => {
+  const getApiZaloMiniAppMobileServicesIconsIosRedirect = (
+    params?: GetApiZaloMiniAppMobileServicesIconsIosRedirectParams
+  ) => {
+    return customRequest<null>({
+      url: `/api/zalo-mini-app/mobile/services/icons/ios-redirect`,
+      method: 'GET',
+      params,
+    })
+  }
   const getApiZaloMiniAppMobileServicesIconConfig = () => {
     return customRequest<ApiResultOfIconConfigDto>({
       url: `/api/zalo-mini-app/mobile/services/icon-config`,
@@ -21,8 +34,19 @@ export const getIconManagementMobile = () => {
       method: 'GET',
     })
   }
-  return { getApiZaloMiniAppMobileServicesIconConfig, getApiZaloMiniAppMobileServicesIconsActive }
+  return {
+    getApiZaloMiniAppMobileServicesIconsIosRedirect,
+    getApiZaloMiniAppMobileServicesIconConfig,
+    getApiZaloMiniAppMobileServicesIconsActive,
+  }
 }
+export type GetApiZaloMiniAppMobileServicesIconsIosRedirectResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getIconManagementMobile>['getApiZaloMiniAppMobileServicesIconsIosRedirect']
+    >
+  >
+>
 export type GetApiZaloMiniAppMobileServicesIconConfigResult = NonNullable<
   Awaited<
     ReturnType<

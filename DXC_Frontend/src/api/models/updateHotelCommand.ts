@@ -34,9 +34,9 @@ export interface UpdateHotelCommand {
   /** @nullable */
   priceFromCurrency?: string | null
   /** @nullable */
-  thuTu?: number | null
-  /** @nullable */
   isActive?: boolean | null
+  /** @nullable */
+  thuTu?: number | null
   /** @nullable */
   imagePublicIds?: string[] | null
 }

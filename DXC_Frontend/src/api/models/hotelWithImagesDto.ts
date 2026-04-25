@@ -34,8 +34,7 @@ export interface HotelWithImagesDto {
   priceFrom?: number | null
   /** @nullable */
   priceFromCurrency?: string | null
-  /** @nullable */
-  thuTu?: number | null
+  thuTu?: number
   isActive?: boolean
   createdAt?: string
   /** @nullable */

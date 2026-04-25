@@ -11,4 +11,6 @@ export interface UpdateHotlineCategoryCommand {
   name: string | null
   /** @nullable */
   description?: string | null
+  /** @nullable */
+  thuTu?: number | null
 }

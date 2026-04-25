@@ -13,4 +13,5 @@ export interface HotlineMobileDto {
   contactName: string | null
   /** @nullable */
   description?: string | null
+  thuTu?: number
 }

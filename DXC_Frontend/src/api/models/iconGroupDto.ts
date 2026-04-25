@@ -19,6 +19,7 @@ export interface IconGroupDto {
    */
   description?: string | null
   displayOrder?: number
+  thuTu?: number
   isActive?: boolean
   createdAt?: string
   updatedAt?: string

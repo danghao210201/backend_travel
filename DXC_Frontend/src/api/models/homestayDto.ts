@@ -28,8 +28,7 @@ export interface HomestayDto {
   website?: string | null
   /** @nullable */
   linkVitri?: string | null
-  /** @nullable */
-  thuTu?: number | null
+  thuTu?: number
   isActive?: boolean
   createdAt?: string
   updatedAt?: string

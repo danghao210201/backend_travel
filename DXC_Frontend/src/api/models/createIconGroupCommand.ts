@@ -13,5 +13,7 @@ export interface CreateIconGroupCommand {
   description?: string | null
   displayOrder?: number
   /** @nullable */
+  thuTu?: number | null
+  /** @nullable */
   imagePublicId?: string | null
 }

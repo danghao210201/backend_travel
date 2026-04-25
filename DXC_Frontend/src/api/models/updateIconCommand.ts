@@ -31,4 +31,6 @@ export interface UpdateIconCommand {
   linkIOS?: string | null
   displayOrder?: number
   isActive?: boolean
+  /** @nullable */
+  thuTu?: number | null
 }

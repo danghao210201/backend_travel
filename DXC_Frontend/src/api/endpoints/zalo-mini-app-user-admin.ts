@@ -63,6 +63,12 @@ export const getZaloMiniAppUserAdmin = () => {
       method: 'GET',
     })
   }
+  const getApiZaloMiniAppAdminUserTotalUsersByUserIdUserId = (userId: string) => {
+    return customRequest<ApiResultOfTotalUserDto>({
+      url: `/api/zalo-mini-app/admin/user/total-users/by-user-id/${userId}`,
+      method: 'GET',
+    })
+  }
   const postApiZaloMiniAppAdminUserTotalUsersUpdate = (
     updateTotalUserCommand: UpdateTotalUserCommand
   ) => {
@@ -89,6 +95,7 @@ export const getZaloMiniAppUserAdmin = () => {
     getApiZaloMiniAppAdminUserTotalUsers,
     getApiZaloMiniAppAdminUserTotalUsersId,
     getApiZaloMiniAppAdminUserTotalUsersByUsernameUsername,
+    getApiZaloMiniAppAdminUserTotalUsersByUserIdUserId,
     postApiZaloMiniAppAdminUserTotalUsersUpdate,
     postApiZaloMiniAppAdminUserTotalUsersDelete,
   }
@@ -123,6 +130,15 @@ export type GetApiZaloMiniAppAdminUserTotalUsersByUsernameUsernameResult = NonNu
       ReturnType<
         typeof getZaloMiniAppUserAdmin
       >['getApiZaloMiniAppAdminUserTotalUsersByUsernameUsername']
+    >
+  >
+>
+export type GetApiZaloMiniAppAdminUserTotalUsersByUserIdUserIdResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<
+        typeof getZaloMiniAppUserAdmin
+      >['getApiZaloMiniAppAdminUserTotalUsersByUserIdUserId']
     >
   >
 >

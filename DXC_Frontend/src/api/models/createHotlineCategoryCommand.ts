@@ -10,4 +10,5 @@ export interface CreateHotlineCategoryCommand {
   name: string | null
   /** @nullable */
   description?: string | null
+  thuTu?: number
 }
