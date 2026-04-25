@@ -25,6 +25,14 @@ public class OrdersMobileController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPost("cancel")]
+    [ProducesResponseType(typeof(ApiResult<BookingOrderDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> CancelOrder([FromBody] CancelOrder.Command command)
+    {
+        var result = await _sender.Send(command);
+        return Ok(result);
+    }
+
     [HttpGet("{publicId:guid}")]
     [ProducesResponseType(typeof(ApiResult<BookingOrderDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetOrderById(Guid publicId)
