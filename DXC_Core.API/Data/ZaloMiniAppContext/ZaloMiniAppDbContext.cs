@@ -5,6 +5,9 @@ using DXC_Core.API.Data.ZaloMiniAppContext.Models.Feedback;
 using DXC_Core.API.Data.ZaloMiniAppContext.Models.Products;
 using DXC_Core.API.Data.ZaloMiniAppContext.Models.Users;
 using DXC_Core.API.Data.ZaloMiniAppContext.Models.KhaoSat;
+using DXC_Core.API.Data.ZaloMiniAppContext.Models.News;
+using DXC_Core.API.Data.ZaloMiniAppContext.Models.Booking;
+using DXC_Core.API.Data.ZaloMiniAppContext.Models.Payment;
 using Microsoft.EntityFrameworkCore;
 
 namespace DXC_Core.API.Data.ZaloMiniAppContext;
@@ -22,6 +25,20 @@ public class ZaloMiniAppDbContext : DbContext
     public DbSet<RestaurantImage> RestaurantImages { get; set; }
     public DbSet<Homestay> Homestays { get; set; }
     public DbSet<HomestayImage> HomestayImages { get; set; }
+    public DbSet<Destination> Destinations { get; set; }
+    public DbSet<DestinationImage> DestinationImages { get; set; }
+
+    // NEWS Schema
+    public DbSet<Article> Articles { get; set; }
+
+    // BOOKING Schema
+    public DbSet<Tour> Tours { get; set; }
+    public DbSet<TourImage> TourImages { get; set; }
+    public DbSet<Ticket> Tickets { get; set; }
+    public DbSet<BookingOrder> BookingOrders { get; set; }
+
+    // PAYMENT Schema
+    public DbSet<PaymentTransaction> PaymentTransactions { get; set; }
 
     // PRODUCTS Schema
     public DbSet<OcopProductCategory> OcopProductCategories { get; set; }
@@ -79,6 +96,11 @@ public class ZaloMiniAppDbContext : DbContext
 
         // Configure KHAOSAT Schema
         ConfigureKhaoSatSchema(modelBuilder);
+
+        // Configure NEW schemas
+        ConfigureNewsSchema(modelBuilder);
+        ConfigureBookingSchema(modelBuilder);
+        ConfigurePaymentSchema(modelBuilder);
     }
 
     private static void ConfigurePlacesSchema(ModelBuilder modelBuilder)
@@ -399,6 +421,40 @@ public class ZaloMiniAppDbContext : DbContext
             // Indexes
             entity.HasIndex(hi => hi.HomestayId);
             entity.HasIndex(hi => new { hi.HomestayId, hi.DisplayOrder });
+        });
+        // Destination Configuration
+        modelBuilder.Entity<Destination>(entity =>
+        {
+            entity.ToTable("Destinations", schema: "PLACES");
+            entity.HasKey(d => d.Id);
+            entity.Property(d => d.PublicId).HasDefaultValueSql("NEWSEQUENTIALID()");
+            entity.HasIndex(d => d.PublicId).IsUnique();
+            entity.Property(d => d.Name).IsRequired().HasMaxLength(255);
+            entity.Property(d => d.Description).HasColumnType("nvarchar(max)");
+            entity.Property(d => d.Address).HasMaxLength(500);
+            entity.Property(d => d.TimeLimit).HasMaxLength(100);
+            entity.Property(d => d.Tag).HasMaxLength(100);
+            entity.Property(d => d.Latitude).HasColumnType("decimal(10, 8)");
+            entity.Property(d => d.Longitude).HasColumnType("decimal(11, 8)");
+            entity.Property(d => d.VR360Link).HasMaxLength(500);
+            entity.Property(d => d.IsActive).HasDefaultValue(true);
+            entity.Property(d => d.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+            entity.Property(d => d.UpdatedAt).HasDefaultValueSql("GETUTCDATE()");
+        });
+
+        // DestinationImage Configuration
+        modelBuilder.Entity<DestinationImage>(entity =>
+        {
+            entity.ToTable("DestinationImages", schema: "PLACES");
+            entity.HasKey(di => di.Id);
+            entity.Property(di => di.PublicId).HasDefaultValueSql("NEWSEQUENTIALID()");
+            entity.HasIndex(di => di.PublicId).IsUnique();
+            entity.Property(di => di.ImageUrl).IsRequired().HasMaxLength(500);
+            entity.Property(di => di.ImagePublicId).IsRequired();
+            entity.Property(di => di.IsPrimary).HasDefaultValue(false);
+            entity.Property(di => di.Caption).HasMaxLength(255);
+            entity.Property(di => di.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+            entity.HasOne(di => di.Destination).WithMany(d => d.Images).HasForeignKey(di => di.DestinationId).OnDelete(DeleteBehavior.Cascade);
         });
     }
 
@@ -1148,6 +1204,100 @@ public class ZaloMiniAppDbContext : DbContext
 
             entity.HasIndex(r => new { r.SurveyId, r.IDUser });
             entity.HasIndex(r => r.EssayQuestionId);
+        });
+    }
+
+    private static void ConfigureNewsSchema(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Article>(entity =>
+        {
+            entity.ToTable("Articles", schema: "NEWS");
+            entity.HasKey(a => a.Id);
+            entity.Property(a => a.PublicId).HasDefaultValueSql("NEWSEQUENTIALID()");
+            entity.HasIndex(a => a.PublicId).IsUnique();
+            entity.Property(a => a.Title).IsRequired().HasMaxLength(500);
+            entity.Property(a => a.Slug).HasMaxLength(500);
+            entity.Property(a => a.Summary).HasMaxLength(1000);
+            entity.Property(a => a.Content).HasColumnType("nvarchar(max)");
+            entity.Property(a => a.CoverImagePublicId).HasMaxLength(200);
+            entity.Property(a => a.AuthorName).HasMaxLength(200);
+            entity.Property(a => a.IsActive).HasDefaultValue(true);
+            entity.Property(a => a.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+            entity.Property(a => a.UpdatedAt).HasDefaultValueSql("GETUTCDATE()");
+        });
+    }
+
+    private static void ConfigureBookingSchema(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Tour>(entity =>
+        {
+            entity.ToTable("Tours", schema: "BOOKING");
+            entity.HasKey(t => t.Id);
+            entity.Property(t => t.PublicId).HasDefaultValueSql("NEWSEQUENTIALID()");
+            entity.HasIndex(t => t.PublicId).IsUnique();
+            entity.Property(t => t.Name).IsRequired().HasMaxLength(500);
+            entity.Property(t => t.Description).HasColumnType("nvarchar(max)");
+            entity.Property(t => t.Price).HasColumnType("decimal(18,2)");
+            entity.Property(t => t.IsActive).HasDefaultValue(true);
+            entity.Property(t => t.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+            entity.Property(t => t.UpdatedAt).HasDefaultValueSql("GETUTCDATE()");
+        });
+
+        modelBuilder.Entity<TourImage>(entity =>
+        {
+            entity.ToTable("TourImages", schema: "BOOKING");
+            entity.HasKey(t => t.Id);
+            entity.Property(t => t.PublicId).HasDefaultValueSql("NEWSEQUENTIALID()");
+            entity.Property(t => t.ImageUrl).IsRequired().HasMaxLength(500);
+            entity.Property(t => t.ImagePublicId).IsRequired();
+            entity.Property(t => t.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+            entity.HasOne(t => t.Tour).WithMany(t => t.Images).HasForeignKey(t => t.TourId).OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Ticket>(entity =>
+        {
+            entity.ToTable("Tickets", schema: "BOOKING");
+            entity.HasKey(t => t.Id);
+            entity.Property(t => t.PublicId).HasDefaultValueSql("NEWSEQUENTIALID()");
+            entity.HasIndex(t => t.PublicId).IsUnique();
+            entity.Property(t => t.Name).IsRequired().HasMaxLength(500);
+            entity.Property(t => t.Price).HasColumnType("decimal(18,2)");
+            entity.Property(t => t.IsActive).HasDefaultValue(true);
+            entity.Property(t => t.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+            entity.Property(t => t.UpdatedAt).HasDefaultValueSql("GETUTCDATE()");
+        });
+
+        modelBuilder.Entity<BookingOrder>(entity =>
+        {
+            entity.ToTable("BookingOrders", schema: "BOOKING");
+            entity.HasKey(b => b.Id);
+            entity.Property(b => b.PublicId).HasDefaultValueSql("NEWSEQUENTIALID()");
+            entity.HasIndex(b => b.PublicId).IsUnique();
+            entity.Property(b => b.BookingCode).HasMaxLength(50);
+            entity.Property(b => b.CustomerName).HasMaxLength(200);
+            entity.Property(b => b.PhoneNumber).HasMaxLength(20);
+            entity.Property(b => b.TotalAmount).HasColumnType("decimal(18,2)");
+            entity.Property(b => b.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+            entity.Property(b => b.UpdatedAt).HasDefaultValueSql("GETUTCDATE()");
+            
+            entity.HasOne(b => b.Tour).WithMany().HasForeignKey(b => b.TourId).OnDelete(DeleteBehavior.SetNull);
+            entity.HasOne(b => b.Ticket).WithMany().HasForeignKey(b => b.TicketId).OnDelete(DeleteBehavior.SetNull);
+        });
+    }
+
+    private static void ConfigurePaymentSchema(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<PaymentTransaction>(entity =>
+        {
+            entity.ToTable("PaymentTransactions", schema: "PAYMENT");
+            entity.HasKey(p => p.Id);
+            entity.Property(p => p.PublicId).HasDefaultValueSql("NEWSEQUENTIALID()");
+            entity.HasIndex(p => p.PublicId).IsUnique();
+            entity.Property(p => p.Amount).HasColumnType("decimal(18,2)");
+            entity.Property(p => p.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
+            entity.Property(p => p.UpdatedAt).HasDefaultValueSql("GETUTCDATE()");
+            
+            entity.HasOne(p => p.BookingOrder).WithMany().HasForeignKey(p => p.BookingOrderId).OnDelete(DeleteBehavior.Cascade);
         });
     }
 }
