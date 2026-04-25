@@ -39,7 +39,7 @@ import { IconCategoryListPage, IconCategoryCreatePage, IconCategoryDetailPage, I
 import { IconGroupListPage, IconGroupCreatePage, IconGroupDetailPage, IconGroupEditPage } from '@/features/icon-groups'
 import { IconListPage, IconCreatePage, IconDetailPage, IconEditPage } from '@/features/icons'
 import { KhaoSatListPage, KhaoSatCreatePage, KhaoSatDetailPage, KhaoSatEditPage, KhaoSatStatisticsPage } from '@/features/khaosat'
-
+import { NewsListPage, NewsCreatePage, NewsDetailPage, NewsEditPage } from '@/features/news'
 
 // Protected Route component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -805,7 +805,42 @@ export const AppRoutes = () => {
           }
         />
 
+        {/* News routes */}
+        <Route
+          path="/news"
+          element={
+            <ProtectedRoute>
+              <NewsListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/news/create"
+          element={
+            <ProtectedRoute>
+              <NewsCreatePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/news/:id"
+          element={
+            <ProtectedRoute>
+              <NewsDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/news/:id/edit"
+          element={
+            <ProtectedRoute>
+              <NewsEditPage />
+            </ProtectedRoute>
+          }
+        />
+
         {/* Feedback routes */}
+
         <Route
           path="/feedback/create"
           element={

@@ -20,7 +20,8 @@ import {
   Package,
   Phone,
   Image,
-  Smile
+  Smile,
+  Newspaper
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -256,6 +257,16 @@ const khaoSatMenus: NavItemConfig[] = [
 //   },
 // ]
 
+const newsMenus: NavItemConfig[] = [
+  {
+    id: 'news',
+    name: 'Quản lý tin tức',
+    href: '/news',
+    icon: Newspaper,
+    roles: ['admin', generateRoleCodeFromMenuName('Quản lý tin tức')],
+  },
+]
+
 const adminMenus: NavItemConfig[] = [
   {
     id: 'banners',
@@ -344,6 +355,15 @@ export const navigationConfig: NavItemConfig[] = [
     icon: Leaf,
     roles: calculateParentRoles(ocopMenus),
     children: ocopMenus,
+  },
+
+  // News Management - Admin only
+  {
+    id: 'news-management',
+    name: 'Quản lý tin tức',
+    icon: Newspaper,
+    roles: calculateParentRoles(newsMenus),
+    children: newsMenus,
   },
 
   // Hotline Management - Admin only
