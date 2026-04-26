@@ -36,21 +36,86 @@ export const TourDetailPage = () => {
       }
     >
       <div className="space-y-6">
-        <div>
-          <h3 className="text-lg font-medium">Thông tin chung</h3>
-          <p>Giá: {tour.price} {tour.priceCurrency}</p>
-          <p>Thời gian: {tour.durationDays} ngày {tour.durationNights} đêm</p>
-          <p>Địa điểm xuất phát: {tour.departureLocation}</p>
-          <p>Số lượng tối đa: {tour.maxParticipants}</p>
+        <div className="bg-white p-6 rounded-lg border shadow-sm space-y-6">
+          <h3 className="text-lg font-bold text-gray-900 border-b pb-2">Thông tin chung</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <p className="text-sm text-gray-500">Tên tour</p>
+              <p className="font-medium">{tour.name}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Trạng thái</p>
+              <p className="font-medium">
+                <span className={`px-2 py-1 text-xs font-medium rounded-full ${tour.isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}>
+                  {tour.isActive ? 'Đang hoạt động' : 'Tạm ẩn'}
+                </span>
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Giá tour</p>
+              <p className="font-medium">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(tour.price || 0)}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Thời gian</p>
+              <p className="font-medium">{tour.durationDays} ngày {tour.durationNights} đêm</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Địa điểm xuất phát</p>
+              <p className="font-medium">{tour.departureLocation || 'Chưa cập nhật'}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Số lượng tối đa</p>
+              <p className="font-medium">{tour.maxParticipants} người</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Thứ tự hiển thị</p>
+              <p className="font-medium">{tour.thuTu}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Ngày tạo</p>
+              <p className="font-medium">{tour.createdAt ? new Date(tour.createdAt).toLocaleString('vi-VN') : ''}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Cập nhật lần cuối</p>
+              <p className="font-medium">{tour.updatedAt ? new Date(tour.updatedAt).toLocaleString('vi-VN') : ''}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white p-6 rounded-lg border shadow-sm space-y-4">
+          <h3 className="text-lg font-bold text-gray-900 border-b pb-2">Mô tả chi tiết</h3>
+          <div className="prose max-w-none text-sm">
+             {tour.description ? <div dangerouslySetInnerHTML={{ __html: tour.description }} /> : <p className="text-gray-500 italic">Chưa có mô tả</p>}
+          </div>
+        </div>
+
+        <div className="bg-white p-6 rounded-lg border shadow-sm space-y-4">
+          <h3 className="text-lg font-bold text-gray-900 border-b pb-2">Điểm nổi bật</h3>
+          <div className="prose max-w-none text-sm">
+            {tour.highlights ? <div dangerouslySetInnerHTML={{ __html: tour.highlights }} /> : <p className="text-gray-500 italic">Chưa có điểm nổi bật</p>}
+          </div>
+        </div>
+
+        <div className="bg-white p-6 rounded-lg border shadow-sm space-y-4">
+          <h3 className="text-lg font-bold text-gray-900 border-b pb-2">Lịch trình</h3>
+          <div className="prose max-w-none text-sm">
+            {tour.schedule ? <div dangerouslySetInnerHTML={{ __html: tour.schedule }} /> : <p className="text-gray-500 italic">Chưa có lịch trình</p>}
+          </div>
         </div>
         
-        <div>
-          <h3 className="text-lg font-medium">Hình ảnh</h3>
-          <div className="flex gap-4">
-            {tour.images?.map(img => (
-              <img key={img.publicId} src={img.imageUrl!} alt="Tour image" className="w-32 h-32 object-cover rounded" />
-            ))}
-          </div>
+        <div className="bg-white p-6 rounded-lg border shadow-sm space-y-4">
+          <h3 className="text-lg font-bold text-gray-900 border-b pb-2">Hình ảnh</h3>
+          {tour.images && tour.images.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {tour.images.map(img => (
+                <div key={img.publicId} className="relative aspect-square rounded-md overflow-hidden border">
+                  <img src={img.imageUrl!} alt="Tour image" className="w-full h-full object-cover" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500 italic">Chưa có hình ảnh</p>
+          )}
         </div>
       </div>
     </FormPageLayout>

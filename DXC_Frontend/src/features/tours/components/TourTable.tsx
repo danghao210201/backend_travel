@@ -31,13 +31,7 @@ export const TourTable = ({
       key: 'name',
       label: 'Tên tour',
       render: (_: any, item: TourTableRow) => (
-        <span 
-          className="font-medium text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation()
-            navigate(`/tours/${item.publicId}`)
-          }}
-        >
+        <span className="font-medium text-gray-900">
           {item.name}
         </span>
       ),
@@ -93,7 +87,7 @@ export const TourTable = ({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => navigate(`/tours/${item.publicId}`)}
+            onClick={(e) => { e.stopPropagation(); navigate(`/tours/${item.publicId}`) }}
             className="h-8 w-8 p-0"
             title="Xem chi tiết"
           >
@@ -102,7 +96,7 @@ export const TourTable = ({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => navigate(`/tours/${item.publicId}/edit`)}
+            onClick={(e) => { e.stopPropagation(); navigate(`/tours/${item.publicId}/edit`) }}
             className="h-8 w-8 p-0"
             title="Chỉnh sửa"
           >
@@ -111,7 +105,7 @@ export const TourTable = ({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => onDelete(item.publicId)}
+            onClick={(e) => { e.stopPropagation(); onDelete(item.publicId) }}
             className="h-8 w-8 p-0"
             title="Xóa"
           >
@@ -129,6 +123,7 @@ export const TourTable = ({
       isLoading={isLoading}
       pagination={pagination}
       emptyState={{ title: 'Chưa có tour nào' }}
+      onRowClick={(item) => navigate(`/tours/${item.publicId}`)}
     />
   )
 }

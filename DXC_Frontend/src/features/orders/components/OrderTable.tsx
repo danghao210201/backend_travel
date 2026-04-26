@@ -102,7 +102,7 @@ export const OrderTable = ({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => navigate(`/orders/${item.publicId}`)}
+            onClick={(e) => { e.stopPropagation(); navigate(`/orders/${item.publicId}`) }}
             className="h-8 w-8 p-0"
             title="Xem chi tiết"
           >
@@ -111,7 +111,7 @@ export const OrderTable = ({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => navigate(`/orders/${item.publicId}/edit`)}
+            onClick={(e) => { e.stopPropagation(); navigate(`/orders/${item.publicId}/edit`) }}
             className="h-8 w-8 p-0"
             title="Cập nhật trạng thái"
           >
@@ -120,7 +120,7 @@ export const OrderTable = ({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => onDelete(item.publicId)}
+            onClick={(e) => { e.stopPropagation(); onDelete(item.publicId) }}
             className="h-8 w-8 p-0"
             title="Xóa"
           >
@@ -138,6 +138,7 @@ export const OrderTable = ({
       isLoading={isLoading}
       pagination={pagination}
       emptyState={{ title: 'Chưa có đơn đặt nào' }}
+      onRowClick={(item) => navigate(`/orders/${item.publicId}`)}
     />
   )
 }

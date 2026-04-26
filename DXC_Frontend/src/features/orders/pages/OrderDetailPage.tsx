@@ -36,28 +36,93 @@ export const OrderDetailPage = () => {
       }
     >
       <div className="space-y-6">
-        <div>
-          <h3 className="text-lg font-medium border-b pb-2 mb-4">Thông tin khách hàng</h3>
-          <p><strong>Khách hàng:</strong> {order.customerName}</p>
-          <p><strong>Số điện thoại:</strong> {order.phoneNumber}</p>
-          <p><strong>Email:</strong> {order.email}</p>
-          <p><strong>Ghi chú:</strong> {order.note}</p>
+        <div className="bg-white p-6 rounded-lg border shadow-sm space-y-6">
+          <h3 className="text-lg font-bold text-gray-900 border-b pb-2">Thông tin khách hàng</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <p className="text-sm text-gray-500">Họ và tên</p>
+              <p className="font-medium">{order.customerName}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Số điện thoại</p>
+              <p className="font-medium">{order.phoneNumber || 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Email</p>
+              <p className="font-medium">{order.email || 'N/A'}</p>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm text-gray-500">Ghi chú</p>
+            <p className="font-medium bg-gray-50 p-3 rounded-md border mt-1 min-h-[60px] whitespace-pre-wrap">
+              {order.note || <span className="text-gray-400 italic">Không có ghi chú</span>}
+            </p>
+          </div>
         </div>
         
-        <div>
-          <h3 className="text-lg font-medium border-b pb-2 mb-4">Thông tin dịch vụ</h3>
-          {order.tourId && <p><strong>Loại:</strong> Đặt Tour (ID: {order.tourId})</p>}
-          {order.ticketId && <p><strong>Loại:</strong> Đặt Vé (ID: {order.ticketId})</p>}
-          <p><strong>Số lượng:</strong> {order.quantity}</p>
-          <p><strong>Ngày khởi hành:</strong> {order.departureDate ? new Date(order.departureDate).toLocaleDateString('vi-VN') : 'N/A'}</p>
-          <p><strong>Tổng tiền:</strong> <span className="text-red-600 font-bold">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.totalAmount || 0)}</span></p>
+        <div className="bg-white p-6 rounded-lg border shadow-sm space-y-6">
+          <h3 className="text-lg font-bold text-gray-900 border-b pb-2">Thông tin dịch vụ</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <p className="text-sm text-gray-500">Loại dịch vụ</p>
+              <p className="font-medium">
+                {order.tourId ? `Đặt Tour (ID: ${order.tourId})` : order.ticketId ? `Đặt Vé (ID: ${order.ticketId})` : 'Khác'}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Số lượng</p>
+              <p className="font-medium">{order.quantity}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Ngày khởi hành dự kiến</p>
+              <p className="font-medium">
+                {order.departureDate ? new Date(order.departureDate).toLocaleDateString('vi-VN') : 'Chưa xác định'}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Tổng tiền</p>
+              <p className="font-bold text-red-600 text-lg">
+                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.totalAmount || 0)}
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div>
-          <h3 className="text-lg font-medium border-b pb-2 mb-4">Trạng thái</h3>
-          <p><strong>Trạng thái xử lý:</strong> {order.status}</p>
-          <p><strong>Trạng thái thanh toán:</strong> {order.paymentStatus}</p>
-          <p><strong>Ngày đặt:</strong> {order.createdAt ? new Date(order.createdAt).toLocaleString('vi-VN') : ''}</p>
+        <div className="bg-white p-6 rounded-lg border shadow-sm space-y-6">
+          <h3 className="text-lg font-bold text-gray-900 border-b pb-2">Trạng thái</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <p className="text-sm text-gray-500">Trạng thái xử lý</p>
+              <p className="font-medium">
+                <span className={`px-3 py-1 text-sm font-medium rounded-full inline-block mt-1 ${
+                  order.status === 'Confirmed' ? 'bg-green-100 text-green-700' :
+                  order.status === 'Cancelled' ? 'bg-red-100 text-red-700' :
+                  'bg-yellow-100 text-yellow-700'
+                }`}>
+                  {order.status || 'Pending'}
+                </span>
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Trạng thái thanh toán</p>
+              <p className="font-medium">
+                <span className={`px-3 py-1 text-sm font-medium rounded-full inline-block mt-1 ${
+                  order.paymentStatus === 'Paid' ? 'bg-green-100 text-green-700' :
+                  'bg-gray-100 text-gray-700'
+                }`}>
+                  {order.paymentStatus || 'Unpaid'}
+                </span>
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Ngày đặt</p>
+              <p className="font-medium">{order.createdAt ? new Date(order.createdAt).toLocaleString('vi-VN') : 'N/A'}</p>
+            </div>
+            <div>
+              <p className="text-sm text-gray-500">Cập nhật lần cuối</p>
+              <p className="font-medium">{order.updatedAt ? new Date(order.updatedAt).toLocaleString('vi-VN') : 'N/A'}</p>
+            </div>
+          </div>
         </div>
       </div>
     </FormPageLayout>
