@@ -14,7 +14,7 @@ export const NewsCreatePage = () => {
       title="Thêm mới tin tức"
       description="Tạo bài viết mới trong hệ thống"
       breadcrumbItems={[
-        { label: 'Quản lý tin tức', path: '/news' },
+        { label: 'Quản lý tin tức', href: '/news' },
         { label: 'Thêm mới', current: true },
       ]}
       actionBarContent={

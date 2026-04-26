@@ -40,15 +40,15 @@ export const QuestionManager = ({ surveyId, questions }: Props) => {
   const handleCreateQuestion = () => {
     if (!newQuestionContent.trim()) return
     insertQuestion.mutate(
-      { NoiDung: newQuestionContent.trim(), STT: typeof newQuestionOrder === 'number' ? newQuestionOrder : null },
+      { noiDung: newQuestionContent.trim(), stt: typeof newQuestionOrder === 'number' ? newQuestionOrder : null },
       { onSuccess: () => setCreateDialogOpen(false) }
     )
   }
 
   const handleOpenEditQuestion = (q: QuestionDto) => {
     setEditQuestionDialog({ open: true, question: q })
-    setNewQuestionContent(q.NoiDung || '')
-    setNewQuestionOrder(typeof q.STT === 'number' ? q.STT : ''
+    setNewQuestionContent(q.noiDung || '')
+    setNewQuestionOrder(typeof q.stt === 'number' ? q.stt : ''
     )
   }
 
@@ -56,7 +56,7 @@ export const QuestionManager = ({ surveyId, questions }: Props) => {
     if (!editQuestionDialog.question) return
     if (!newQuestionContent.trim()) return
     updateQuestion.mutate(
-      { Id: editQuestionDialog.question.Id, NoiDung: newQuestionContent.trim(), STT: typeof newQuestionOrder === 'number' ? newQuestionOrder : null },
+      { id: editQuestionDialog.question.id, noiDung: newQuestionContent.trim(), stt: typeof newQuestionOrder === 'number' ? newQuestionOrder : null },
       { onSuccess: () => setEditQuestionDialog({ open: false, question: null }) }
     )
   }
@@ -68,7 +68,7 @@ export const QuestionManager = ({ surveyId, questions }: Props) => {
   const handleAddAnswer = (questionId: number) => {
     const value = (newAnswerByQuestion[questionId] || '').trim()
     if (!value) return
-    insertAnswer.mutate({ QuestionId: questionId, TraLoi: value }, {
+    insertAnswer.mutate({ questionId: questionId, traLoi: value }, {
       onSuccess: () => {
         setNewAnswerByQuestion(prev => ({ ...prev, [questionId]: '' }))
       }
@@ -76,13 +76,13 @@ export const QuestionManager = ({ surveyId, questions }: Props) => {
   }
 
   const handleStartEditAnswer = (answer: AnswerDto) => {
-    setEditingAnswer({ id: answer.Id, value: answer.TraLoi })
+    setEditingAnswer({ id: answer.id!, value: answer.traLoi! })
   }
 
   const handleUpdateAnswerSubmit = () => {
     if (!editingAnswer || !editingAnswer.value.trim()) return
     updateAnswer.mutate(
-      { Id: editingAnswer.id, TraLoi: editingAnswer.value.trim() },
+      { id: editingAnswer.id, traLoi: editingAnswer.value.trim() },
       { onSuccess: () => setEditingAnswer(null) }
     )
   }
@@ -92,10 +92,10 @@ export const QuestionManager = ({ surveyId, questions }: Props) => {
   }
 
   const sortedQuestions = [...questions].sort((a, b) => {
-    const sa = typeof a.STT === 'number' ? a.STT! : Number.MAX_SAFE_INTEGER
-    const sb = typeof b.STT === 'number' ? b.STT! : Number.MAX_SAFE_INTEGER
+    const sa = typeof a.stt === 'number' ? a.stt! : Number.MAX_SAFE_INTEGER
+    const sb = typeof b.stt === 'number' ? b.stt! : Number.MAX_SAFE_INTEGER
     if (sa !== sb) return sa - sb
-    return a.Id - b.Id
+    return (a.id || 0) - (b.id || 0)
   })
   const questionStart = (questionPage - 1) * questionPageSize
   const pagedQuestions = sortedQuestions.slice(questionStart, questionStart + questionPageSize)
@@ -124,11 +124,11 @@ export const QuestionManager = ({ surveyId, questions }: Props) => {
       ) : (
         <div className="space-y-4">
           {pagedQuestions.map(q => (
-            <div key={q.Id} className="border rounded-md p-4">
+            <div key={q.id} className="border rounded-md p-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="text-sm text-gray-600">{typeof q.STT === 'number' ? `#${q.STT}` : '#-'}</div>
-                  <div className="font-medium">{q.NoiDung || '-'}</div>
+                  <div className="text-sm text-gray-600">{typeof q.stt === 'number' ? `#${q.stt}` : '#-'}</div>
+                  <div className="font-medium">{q.noiDung || '-'}</div>
                 </div>
                 <div className="flex items-center gap-2">
                   <Button
@@ -144,7 +144,7 @@ export const QuestionManager = ({ surveyId, questions }: Props) => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => handleDeleteQuestion(q.Id)}
+                    onClick={() => handleDeleteQuestion(q.id!)}
                     className="gap-2"
                     aria-label="Xóa câu hỏi"
                   >
@@ -157,18 +157,18 @@ export const QuestionManager = ({ surveyId, questions }: Props) => {
                 <div className="text-sm font-medium text-gray-700">Câu trả lời trắc nghiệm</div>
                 <div className="mt-2 space-y-2">
                   {(() => {
-                    const answers = q.Answers || []
-                    const ap = getAnswerPage(q.Id)
-                    const asize = getAnswerPageSize(q.Id)
+                    const answers = q.answers || []
+                    const ap = getAnswerPage(q.id!)
+                    const asize = getAnswerPageSize(q.id!)
                     const start = (ap - 1) * asize
                     const pagedAnswers = answers.slice(start, start + asize)
                     return pagedAnswers.map(a => (
-                    <div key={a.Id} className="flex items-center justify-between rounded bg-gray-50 p-2">
-                      {editingAnswer?.id === a.Id ? (
+                    <div key={a.id} className="flex items-center justify-between rounded bg-gray-50 p-2">
+                      {editingAnswer?.id === a.id ? (
                         <div className="flex items-center gap-2 w-full">
                           <Input
-                            value={editingAnswer.value}
-                            onChange={e => setEditingAnswer({ id: a.Id, value: e.target.value })}
+                            value={editingAnswer!.value}
+                            onChange={e => setEditingAnswer({ id: a.id!, value: e.target.value })}
                             aria-label="Sửa trả lời"
                             tabIndex={0}
                           />
@@ -193,7 +193,7 @@ export const QuestionManager = ({ surveyId, questions }: Props) => {
                         </div>
                       ) : (
                         <>
-                          <div className="text-gray-800">{a.TraLoi}</div>
+                          <div className="text-gray-800">{a.traLoi}</div>
                           <div className="flex items-center gap-2">
                             <Button
                               variant="ghost"
@@ -208,7 +208,7 @@ export const QuestionManager = ({ surveyId, questions }: Props) => {
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => handleDeleteAnswer(a.Id)}
+                              onClick={() => handleDeleteAnswer(a.id!)}
                               className="gap-2"
                               aria-label="Xóa trả lời"
                             >
@@ -224,15 +224,15 @@ export const QuestionManager = ({ surveyId, questions }: Props) => {
                   <div className="flex items-center gap-2">
                     <Input
                       placeholder="Nhập câu trả lời..."
-                      value={newAnswerByQuestion[q.Id] || ''}
-                      onChange={e => setNewAnswerByQuestion(prev => ({ ...prev, [q.Id]: e.target.value }))}
+                      value={newAnswerByQuestion[q.id!] || ''}
+                      onChange={e => setNewAnswerByQuestion(prev => ({ ...prev, [q.id!]: e.target.value }))}
                       aria-label="Thêm trả lời"
                       tabIndex={0}
                     />
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => handleAddAnswer(q.Id)}
+                      onClick={() => handleAddAnswer(q.id!)}
                       className="gap-2"
                       aria-label="Thêm trả lời"
                     >

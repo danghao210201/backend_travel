@@ -14,27 +14,27 @@ type Props = {
 }
 
 export const KhaoSatForm = ({ initial, onSubmit, submitting, mode, onSave }: Props) => {
-  const [ten, setTen] = useState(initial?.TenKhaoSat || '')
+  const [ten, setTen] = useState(initial?.tenKhaoSat || '')
   const [thoiGian, setThoiGian] = useState(
-    initial?.ThoiGian ? initial.ThoiGian.slice(0, 16) : new Date().toISOString().slice(0, 16)
+    initial?.thoiGian ? initial.thoiGian.slice(0, 16) : new Date().toISOString().slice(0, 16)
   )
   const [displayWebsite, setDisplayWebsite] = useState(
-    initial?.DisplayWebsite === 'true' ? 'true' : 'false'
+    initial?.displayWebsite === 'true' ? 'true' : 'false'
   )
-  const [header, setHeader] = useState(initial?.Header || '')
-  const [footer, setFooter] = useState(initial?.Footer || '')
-  const [veViec, setVeViec] = useState(initial?.VeViec || '')
-  const [isActive, setIsActive] = useState<boolean>(initial?.IsActive ?? true)
+  const [header, setHeader] = useState(initial?.header || '')
+  const [footer, setFooter] = useState(initial?.footer || '')
+  const [veViec, setVeViec] = useState(initial?.veViec || '')
+  const [isActive, setIsActive] = useState<boolean>(initial?.isActive ?? true)
 
   const handleSubmit = () => {
     if (!ten.trim()) return
     const payloadBase = {
-      TenKhaoSat: ten.trim(),
-      ThoiGian: new Date(thoiGian).toISOString(),
-      DisplayWebsite: displayWebsite || null,
-      Header: header || null,
-      Footer: footer || null,
-      VeViec: veViec || null,
+      tenKhaoSat: ten.trim(),
+      thoiGian: new Date(thoiGian).toISOString(),
+      displayWebsite: displayWebsite || null,
+      header: header || null,
+      footer: footer || null,
+      veViec: veViec || null,
     }
     if (mode === 'create') {
       const payload: CreateSurveyCommand = payloadBase
@@ -42,9 +42,9 @@ export const KhaoSatForm = ({ initial, onSubmit, submitting, mode, onSave }: Pro
       return
     }
     const payload: UpdateSurveyCommand = {
-      Id: initial?.Id || 0,
+      id: initial?.id || 0,
       ...payloadBase,
-      IsActive: isActive,
+      isActive: isActive,
     }
     onSubmit(payload)
   }

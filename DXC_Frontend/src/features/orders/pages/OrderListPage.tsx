@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom'
 import { ListPageLayout } from '@/shared/components'
 import { usePagination } from '@/shared/hooks'
 import { OrderTable } from '../components/OrderTable'
@@ -6,7 +5,6 @@ import { useOrders, useDeleteOrder } from '../hooks/useOrders'
 import type { OrderTableRow } from '../types'
 
 export const OrderListPage = () => {
-  const navigate = useNavigate()
   const { page, pageSize, setPage, setPageSize, getPaginationParams } = usePagination(10)
   
   const { data, isLoading } = useOrders({

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { Upload, X, Loader2, Star } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useTourImageUpload } from '../hooks/useTourImageUpload'

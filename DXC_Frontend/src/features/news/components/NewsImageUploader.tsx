@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { Upload, Trash2, Image as ImageIcon } from 'lucide-react'
+import { Upload, Trash2 } from 'lucide-react'
 import { useNewsImageUpload } from '../hooks/useNewsImageUpload'
 import { buildImageUrl } from '@/features/homestays/utils/imageUrl' // or a generic util if you have one
 
@@ -18,7 +18,7 @@ export function NewsImageUploader({
   existingImageUrl = null,
   existingImagePublicId = null,
 }: NewsImageUploaderProps) {
-  const { uploadedImages, isUploading, handleUpload, removeImage, clearImages } = useNewsImageUpload()
+  const { uploadedImages, isUploading, handleUpload, clearImages } = useNewsImageUpload()
   const [isDragging, setIsDragging] = useState(false)
   const [removedExisting, setRemovedExisting] = useState(false)
   const lastSyncRef = useRef<string | null>(null)

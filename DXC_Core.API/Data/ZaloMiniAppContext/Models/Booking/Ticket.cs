@@ -7,6 +7,7 @@ public class Ticket
     public required string Name { get; set; } // e.g., Vé cáp treo Sun World, Vé vào cổng...
     public string? Description { get; set; }
     public decimal Price { get; set; }
+    public decimal ChildPrice { get; set; } = 0;
     public string? PriceCurrency { get; set; } = "VND";
     public string? TicketType { get; set; } // Adult, Child, Senior
     public string? CoverImagePublicId { get; set; }

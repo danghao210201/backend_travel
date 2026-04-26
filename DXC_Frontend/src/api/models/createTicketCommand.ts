@@ -11,6 +11,7 @@ export interface CreateTicketCommand {
   /** @nullable */
   description?: string | null
   price?: number
+  childPrice?: number
   /** @nullable */
   priceCurrency?: string | null
   thuTu?: number

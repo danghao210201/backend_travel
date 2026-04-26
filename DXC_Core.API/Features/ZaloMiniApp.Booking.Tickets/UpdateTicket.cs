@@ -14,6 +14,7 @@ public static class UpdateTicket
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
         public decimal Price { get; set; }
+        public decimal ChildPrice { get; set; }
         public string? PriceCurrency { get; set; }
         public int ThuTu { get; set; }
         public bool IsActive { get; set; }
@@ -26,6 +27,7 @@ public static class UpdateTicket
             RuleFor(x => x.PublicId).NotEmpty();
             RuleFor(x => x.Name).NotEmpty().MaximumLength(500);
             RuleFor(x => x.Price).GreaterThanOrEqualTo(0);
+            RuleFor(x => x.ChildPrice).GreaterThanOrEqualTo(0);
         }
     }
 
@@ -50,6 +52,7 @@ public static class UpdateTicket
             ticket.Name = request.Name;
             ticket.Description = request.Description;
             ticket.Price = request.Price;
+            ticket.ChildPrice = request.ChildPrice;
             ticket.PriceCurrency = request.PriceCurrency;
             ticket.ThuTu = request.ThuTu;
             ticket.IsActive = request.IsActive;

@@ -17,7 +17,10 @@ public static class CreateOrder
         public int? TourId { get; set; }
         public int? TicketId { get; set; }
         public int Quantity { get; set; } = 1;
+        public int AdultQuantity { get; set; } = 1;
+        public int ChildQuantity { get; set; } = 0;
         public DateTime? DepartureDate { get; set; }
+        public string? DepartureTime { get; set; }
         public decimal TotalAmount { get; set; }
     }
 
@@ -51,7 +54,10 @@ public static class CreateOrder
                 TourId = request.TourId > 0 ? request.TourId : null,
                 TicketId = request.TicketId > 0 ? request.TicketId : null,
                 Quantity = request.Quantity,
+                AdultQuantity = request.AdultQuantity,
+                ChildQuantity = request.ChildQuantity,
                 DepartureDate = request.DepartureDate,
+                DepartureTime = request.DepartureTime,
                 TotalAmount = request.TotalAmount,
                 Status = "Pending",
                 PaymentStatus = "Unpaid",

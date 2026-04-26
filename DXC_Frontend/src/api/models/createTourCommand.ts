@@ -4,6 +4,7 @@
  * DXC_Core.API
  * OpenAPI spec version: 1.0
  */
+import type { TourImageDto } from './tourImageDto'
 
 export interface CreateTourCommand {
   /** @nullable */
@@ -24,4 +25,6 @@ export interface CreateTourCommand {
   maxParticipants?: number
   thuTu?: number
   isActive?: boolean
+  /** @nullable */
+  images?: TourImageDto[] | null
 }

@@ -74,8 +74,8 @@ export const useUpdateKhaoSat = () => {
     onSuccess: (_res, variables) => {
       toast.success('Cập nhật khảo sát thành công')
       queryClient.invalidateQueries({ queryKey: ['khaosat'] })
-      if ((variables as UpdateSurveyCommand)?.Id) {
-        queryClient.invalidateQueries({ queryKey: ['khaosat-detail', (variables as UpdateSurveyCommand).Id] })
+      if ((variables as UpdateSurveyCommand)?.id) {
+        queryClient.invalidateQueries({ queryKey: ['khaosat-detail', (variables as UpdateSurveyCommand).id] })
       }
     },
     onError: (error: Error) => {
@@ -88,7 +88,7 @@ export const useDeleteKhaoSat = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (id: number) => {
-      const payload: DeleteSurveyCommand = { Id: id }
+      const payload: DeleteSurveyCommand = { id: id }
       const result = await getKhaoSatAdminApi().postApiZaloMiniAppAdminKhaosatDelete(payload)
       if (!result.success) {
         throw new Error(result.message || 'Xóa khảo sát thất bại')
@@ -108,8 +108,8 @@ export const useDeleteKhaoSat = () => {
 export const useInsertQuestion = (surveyId: number) => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: async (data: Omit<InsertQuestionCommand, 'SurveyId'>) => {
-      const payload: InsertQuestionCommand = { SurveyId: surveyId, ...data }
+    mutationFn: async (data: Omit<InsertQuestionCommand, 'surveyId'>) => {
+      const payload: InsertQuestionCommand = { surveyId: surveyId, ...data }
       const result = await getKhaoSatAdminApi().postApiZaloMiniAppAdminKhaosatQuestionsCreate(payload)
       if (!result.success) throw new Error(result.message || 'Thêm câu hỏi thất bại')
       return result
@@ -146,7 +146,7 @@ export const useDeleteQuestion = (surveyId: number) => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (id: number) => {
-      const payload: DeleteQuestionCommand = { Id: id }
+      const payload: DeleteQuestionCommand = { id: id }
       const result = await getKhaoSatAdminApi().postApiZaloMiniAppAdminKhaosatQuestionsDelete(payload)
       if (!result.success) throw new Error(result.message || 'Xóa câu hỏi thất bại')
       return result
@@ -201,7 +201,7 @@ export const useDeleteAnswer = (surveyId: number) => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (id: number) => {
-      const payload: DeleteAnswerCommand = { Id: id }
+      const payload: DeleteAnswerCommand = { id: id }
       const result = await getKhaoSatAdminApi().postApiZaloMiniAppAdminKhaosatAnswersDelete(payload)
       if (!result.success) throw new Error(result.message || 'Xóa trả lời thất bại')
       return result
@@ -219,7 +219,7 @@ export const useDeleteAnswer = (surveyId: number) => {
 export const useEssayQuestions = (params: { SurveyId: number; Current?: number; PageSize?: number }) => {
   return useQuery<PagedResultOfEssayQuestionDto>({
     queryKey: ['khaosat-essay', params],
-    queryFn: () => getKhaoSatAdminApi().getApiZaloMiniAppAdminKhaosatTuLuan(params),
+    queryFn: () => getKhaoSatAdminApi().getApiZaloMiniAppAdminKhaosatTuluan(params),
     staleTime: 1000 * 60,
   })
 }
@@ -227,9 +227,9 @@ export const useEssayQuestions = (params: { SurveyId: number; Current?: number; 
 export const useCreateEssayQuestion = (surveyId: number) => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: async (data: Omit<CreateEssayQuestionCommand, 'SurveyId'>) => {
-      const payload: CreateEssayQuestionCommand = { SurveyId: surveyId, ...data }
-      const result = await getKhaoSatAdminApi().postApiZaloMiniAppAdminKhaosatTuLuanCreate(payload)
+    mutationFn: async (data: Omit<CreateEssayQuestionCommand, 'surveyId'>) => {
+      const payload: CreateEssayQuestionCommand = { surveyId: surveyId, ...data }
+      const result = await getKhaoSatAdminApi().postApiZaloMiniAppAdminKhaosatTuluanCreate(payload)
       if (!result.success) throw new Error((result as any).message || 'Tạo câu hỏi tự luận thất bại')
       return result
     },
@@ -247,7 +247,7 @@ export const useUpdateEssayQuestion = (surveyId: number) => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (data: UpdateEssayQuestionCommand) => {
-      const result = await getKhaoSatAdminApi().postApiZaloMiniAppAdminKhaosatTuLuanUpdate(data)
+      const result = await getKhaoSatAdminApi().postApiZaloMiniAppAdminKhaosatTuluanUpdate(data)
       if (!result.success) throw new Error((result as any).message || 'Cập nhật câu hỏi tự luận thất bại')
       return result
     },
@@ -266,8 +266,8 @@ export const useDeleteEssayQuestion = (surveyId: number) => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: async (id: number) => {
-      const payload: DeleteEssayQuestionCommand = { Id: id }
-      const result = await getKhaoSatAdminApi().postApiZaloMiniAppAdminKhaosatTuLuanDelete(payload)
+      const payload: DeleteEssayQuestionCommand = { id: id }
+      const result = await getKhaoSatAdminApi().postApiZaloMiniAppAdminKhaosatTuluanDelete(payload)
       if (!result.success) throw new Error((result as any).message || 'Xóa câu hỏi tự luận thất bại')
       return result
     },

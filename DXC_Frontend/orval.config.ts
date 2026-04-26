@@ -3,7 +3,7 @@ import { defineConfig } from 'orval'
 export default defineConfig({
   api: {
     input: {
-      target: 'http://localhost:5292/swagger/v1/swagger.json', // Đường dẫn đến Swagger JSON từ backend
+      target: 'http://localhost:5293/swagger/v1/swagger.json', // Đường dẫn đến Swagger JSON từ backend
     },
     output: {
       mode: 'tags',

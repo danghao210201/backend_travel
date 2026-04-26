@@ -61,6 +61,7 @@ public static class GetTickets
                     Name = x.Name,
                     Description = x.Description,
                     Price = x.Price,
+                    ChildPrice = x.ChildPrice,
                     PriceCurrency = x.PriceCurrency,
                     ThuTu = x.ThuTu,
                     IsActive = x.IsActive,

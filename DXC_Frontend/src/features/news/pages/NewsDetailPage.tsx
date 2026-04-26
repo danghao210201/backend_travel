@@ -51,7 +51,7 @@ export const NewsDetailPage = () => {
       title="Chi tiết tin tức"
       description={news.title || 'Chi tiết bài viết'}
       breadcrumbItems={[
-        { label: 'Quản lý tin tức', path: '/news' },
+        { label: 'Quản lý tin tức', href: '/news' },
         { label: 'Chi tiết', current: true },
       ]}
       actionBarContent={

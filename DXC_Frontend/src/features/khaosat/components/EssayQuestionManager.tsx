@@ -29,7 +29,7 @@ export const EssayQuestionManager = ({ surveyId }: Props) => {
 
   const handleCreate = () => {
     if (!newContent.trim()) return
-    createMutation.mutate({ CauHoiTuLuan: newContent.trim() }, { onSuccess: () => setCreateDialogOpen(false) })
+    createMutation.mutate({ cauHoiTuLuan: newContent.trim() }, { onSuccess: () => setCreateDialogOpen(false) })
   }
 
   const handleOpenEdit = (id: number, value: string) => {
@@ -38,7 +38,7 @@ export const EssayQuestionManager = ({ surveyId }: Props) => {
 
   const handleUpdate = () => {
     if (!editDialog.id || !editDialog.value?.trim()) return
-    updateMutation.mutate({ Id: editDialog.id, CauHoiTuLuan: editDialog.value.trim() }, { onSuccess: () => setEditDialog({ open: false, id: null, value: '' }) })
+    updateMutation.mutate({ id: editDialog.id, cauHoiTuLuan: editDialog.value.trim() }, { onSuccess: () => setEditDialog({ open: false, id: null, value: '' }) })
   }
 
   const handleDelete = (id: number) => {
@@ -72,8 +72,8 @@ export const EssayQuestionManager = ({ surveyId }: Props) => {
       ) : (
         <div className="space-y-3">
           {items.map(it => {
-            const id = it?.Id ?? it?.id
-            const content = it?.CauHoiTuLuan ?? it?.cauHoiTuLuan ?? ''
+            const id = it?.id
+            const content = it?.cauHoiTuLuan ?? ''
             return (
             <div key={id} className="flex items-center justify-between border rounded-md p-3">
               <div className="text-gray-800">{content || '-'}</div>

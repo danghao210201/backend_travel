@@ -35,9 +35,9 @@ public static class GetActiveIcons
                         .Select(i => new IconMobileDto
                         {
                             PublicId = i.PublicId,
-                            Name = i.Name,
-                            IconImageUrl = i.IconImageUrl,
-                            IconType = i.IconType,
+                            Name = i.Name ?? "",
+                            IconImageUrl = i.IconImageUrl ?? "",
+                            IconType = i.IconType ?? "",
                             ScreenParams = i.ScreenParams,
                             WebLink = i.WebLink,
                             LinkAndroid = i.LinkAndroid,
@@ -59,9 +59,9 @@ public static class GetActiveIcons
                         .Select(i => new IconMobileDto
                         {
                             PublicId = i.PublicId,
-                            Name = i.Name,
-                            IconImageUrl = i.IconImageUrl,
-                            IconType = i.IconType,
+                            Name = i.Name ?? "",
+                            IconImageUrl = i.IconImageUrl ?? "",
+                            IconType = i.IconType ?? "",
                             ScreenParams = i.ScreenParams,
                             WebLink = i.WebLink,
                             LinkAndroid = i.LinkAndroid,

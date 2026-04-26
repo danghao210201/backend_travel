@@ -6,7 +6,8 @@
  */
 
 export interface TourImageDto {
-  publicId?: string
+  /** @nullable */
+  publicId?: string | null
   /** @nullable */
   imageUrl?: string | null
   /** @nullable */

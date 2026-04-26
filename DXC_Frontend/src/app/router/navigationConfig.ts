@@ -1,14 +1,9 @@
 import { 
   Layout, 
-  MessageSquare, 
   Settings, 
   Users, 
   Shield, 
-  ArrowRightLeft, 
-  Clock, 
-  CheckCircle, 
   FileCheck, 
-  XCircle,
   Building2,
   Building,
   Hotel,
@@ -20,10 +15,10 @@ import {
   Package,
   Phone,
   Image,
-  Smile,
   Newspaper,
   Map,
-  ShoppingCart
+  ShoppingCart,
+  Ticket
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -91,50 +86,50 @@ function calculateParentRoles(children?: NavItemConfig[]): string[] {
  *   - 'Xử lý phản ánh' → 'xu_ly_phan_anh'
  *   - 'Phê duyệt phản ánh' → 'phe_duyet_phan_anh'
  */
-const feedbackMenus: NavItemConfig[] = [
-  {
-    id: 'feedback-tracking',
-    name: 'Theo dõi xử lý',
-    href: '/feedback-tracking',
-    icon: MessageSquare,
-    roles: ['admin', generateRoleCodeFromMenuName('Theo dõi xử lý')],
-  },
-  {
-    id: 'feedback-list',
-    name: 'Điều phối phản ánh',
-    href: '/feedback',
-    icon: ArrowRightLeft,
-    roles: ['admin', generateRoleCodeFromMenuName('Điều phối phản ánh')],
- },
-  {
-    id: 'feedback-processing',
-    name: 'Xử lý phản ánh',
-    href: '/feedback/processing',
-    icon: Clock,
-    roles: ['admin', generateRoleCodeFromMenuName('Xử lý phản ánh')],
-  },
-  {
-    id: 'feedback-approval',
-    name: 'Phê duyệt phản ánh',
-    href: '/feedback/approval',
-    icon: CheckCircle,
-    roles: ['admin', generateRoleCodeFromMenuName('Phê duyệt phản ánh')],
-  },
-  {
-    id: 'feedback-public',
-    name: 'Phản ánh hoàn thành',
-    href: '/feedback/public',
-    icon: FileCheck,
-    roles: ['admin', generateRoleCodeFromMenuName('Phản ánh hoàn thành')],
-  },
-  {
-    id: 'feedback-rejected',
-    name: 'Phản ánh từ chối',
-    href: '/feedback/rejected',
-    icon: XCircle,
-    roles: ['admin', generateRoleCodeFromMenuName('Phản ánh từ chối')],
-  },
-]
+// const feedbackMenus: NavItemConfig[] = [
+//   {
+//     id: 'feedback-tracking',
+//     name: 'Theo dõi xử lý',
+//     href: '/feedback-tracking',
+//     icon: MessageSquare,
+//     roles: ['admin', generateRoleCodeFromMenuName('Theo dõi xử lý')],
+//   },
+//   {
+//     id: 'feedback-list',
+//     name: 'Điều phối phản ánh',
+//     href: '/feedback',
+//     icon: ArrowRightLeft,
+//     roles: ['admin', generateRoleCodeFromMenuName('Điều phối phản ánh')],
+//  },
+//   {
+//     id: 'feedback-processing',
+//     name: 'Xử lý phản ánh',
+//     href: '/feedback/processing',
+//     icon: Clock,
+//     roles: ['admin', generateRoleCodeFromMenuName('Xử lý phản ánh')],
+//   },
+//   {
+//     id: 'feedback-approval',
+//     name: 'Phê duyệt phản ánh',
+//     href: '/feedback/approval',
+//     icon: CheckCircle,
+//     roles: ['admin', generateRoleCodeFromMenuName('Phê duyệt phản ánh')],
+//   },
+//   {
+//     id: 'feedback-public',
+//     name: 'Phản ánh hoàn thành',
+//     href: '/feedback/public',
+//     icon: FileCheck,
+//     roles: ['admin', generateRoleCodeFromMenuName('Phản ánh hoàn thành')],
+//   },
+//   {
+//     id: 'feedback-rejected',
+//     name: 'Phản ánh từ chối',
+//     href: '/feedback/rejected',
+//     icon: XCircle,
+//     roles: ['admin', generateRoleCodeFromMenuName('Phản ánh từ chối')],
+//   },
+// ]
 
 const locationMenus: NavItemConfig[] = [
   {
@@ -201,29 +196,29 @@ const hotlineMenus: NavItemConfig[] = [
   },
 ]
 
-const iconMenus: NavItemConfig[] = [
-  {
-    id: 'icon-categories',
-    name: 'Quản lý danh mục icon',
-    href: '/icon-categories',
-    icon: Smile,
-    roles: ['admin', generateRoleCodeFromMenuName('Quản lý danh mục icon')],
-  },
-  {
-    id: 'icon-groups',
-    name: 'Quản lý nhóm icon',
-    href: '/icon-groups',
-    icon: Smile,
-    roles: ['admin', generateRoleCodeFromMenuName('Quản lý nhóm icon')],
-  },
-  {
-    id: 'icons',
-    name: 'Quản lý icon',
-    href: '/icons',
-    icon: Smile,
-    roles: ['admin', generateRoleCodeFromMenuName('Quản lý icon')],
-  },
-]
+// const iconMenus: NavItemConfig[] = [
+//   {
+//     id: 'icon-categories',
+//     name: 'Quản lý danh mục icon',
+//     href: '/icon-categories',
+//     icon: Smile,
+//     roles: ['admin', generateRoleCodeFromMenuName('Quản lý danh mục icon')],
+//   },
+//   {
+//     id: 'icon-groups',
+//     name: 'Quản lý nhóm icon',
+//     href: '/icon-groups',
+//     icon: Smile,
+//     roles: ['admin', generateRoleCodeFromMenuName('Quản lý nhóm icon')],
+//   },
+//   {
+//     id: 'icons',
+//     name: 'Quản lý icon',
+//     href: '/icons',
+//     icon: Smile,
+//     roles: ['admin', generateRoleCodeFromMenuName('Quản lý icon')],
+//   },
+// ]
 
 const khaoSatMenus: NavItemConfig[] = [
   {
@@ -278,6 +273,13 @@ const bookingMenus: NavItemConfig[] = [
     roles: ['admin', generateRoleCodeFromMenuName('Quản lý Tour')],
   },
   {
+    id: 'tickets',
+    name: 'Quản lý Vé',
+    href: '/tickets',
+    icon: Ticket,
+    roles: ['admin', generateRoleCodeFromMenuName('Quản lý Vé')],
+  },
+  {
     id: 'orders',
     name: 'Quản lý Đơn hàng',
     href: '/orders',
@@ -301,13 +303,13 @@ const adminMenus: NavItemConfig[] = [
     icon: Users,
     roles: ['admin', generateRoleCodeFromMenuName('Quản lý người dùng')],
   },
-  {
-    id: 'total-users',
-    name: 'Thống kê người dùng',
-    href: '/total-users',
-    icon: Users,
-    roles: ['admin', generateRoleCodeFromMenuName('Thống kê người dùng')],
-  },
+  // {
+  //   id: 'total-users',
+  //   name: 'Thống kê người dùng',
+  //   href: '/total-users',
+  //   icon: Users,
+  //   roles: ['admin', generateRoleCodeFromMenuName('Thống kê người dùng')],
+  // },
   {
     id: 'roles',
     name: 'Quản lý vai trò',
@@ -350,12 +352,30 @@ export const navigationConfig: NavItemConfig[] = [
   },
 
   // Feedback Management - Role-based (parent roles auto-calculated)
+  // {
+  //   id: 'feedback',
+  //   name: 'Quản lý phản ánh',
+  //   icon: MessageSquare,
+  //   roles: calculateParentRoles(feedbackMenus),
+  //   children: feedbackMenus,
+  // },
+
+  // Booking Management - Admin only
   {
-    id: 'feedback',
-    name: 'Quản lý phản ánh',
-    icon: MessageSquare,
-    roles: calculateParentRoles(feedbackMenus),
-    children: feedbackMenus,
+    id: 'booking-management',
+    name: 'Quản lý Đặt Tour',
+    icon: Map,
+    roles: calculateParentRoles(bookingMenus),
+    children: bookingMenus,
+  },
+
+  // News Management - Admin only
+  {
+    id: 'news-management',
+    name: 'Quản lý tin tức',
+    icon: Newspaper,
+    roles: calculateParentRoles(newsMenus),
+    children: newsMenus,
   },
 
   // Location Management - Admin only
@@ -376,24 +396,6 @@ export const navigationConfig: NavItemConfig[] = [
     children: ocopMenus,
   },
 
-  // News Management - Admin only
-  {
-    id: 'news-management',
-    name: 'Quản lý tin tức',
-    icon: Newspaper,
-    roles: calculateParentRoles(newsMenus),
-    children: newsMenus,
-  },
-
-  // Booking Management - Admin only
-  {
-    id: 'booking-management',
-    name: 'Quản lý Đặt Tour',
-    icon: Map,
-    roles: calculateParentRoles(bookingMenus),
-    children: bookingMenus,
-  },
-
   // Hotline Management - Admin only
   {
     id: 'hotline',
@@ -404,13 +406,13 @@ export const navigationConfig: NavItemConfig[] = [
   },
 
   // Icon Management - Admin only
-  {
-    id: 'icon',
-    name: 'Quản lý icon động',
-    icon: Smile,
-    roles: calculateParentRoles(iconMenus),
-    children: iconMenus,
-  },
+  // {
+  //   id: 'icon',
+  //   name: 'Quản lý icon động',
+  //   icon: Smile,
+  //   roles: calculateParentRoles(iconMenus),
+  //   children: iconMenus,
+  // },
 
   // Survey Management - Admin only
   {

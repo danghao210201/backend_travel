@@ -11,7 +11,10 @@ public class BookingOrderDto
     public int? TourId { get; set; }
     public int? TicketId { get; set; }
     public int Quantity { get; set; }
+    public int AdultQuantity { get; set; }
+    public int ChildQuantity { get; set; }
     public DateTime? DepartureDate { get; set; }
+    public string? DepartureTime { get; set; }
     public decimal TotalAmount { get; set; }
     public string Status { get; set; } = null!;
     public string PaymentStatus { get; set; } = null!;

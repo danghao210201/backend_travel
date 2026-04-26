@@ -4,7 +4,7 @@
  * DXC_Core.API
  * OpenAPI spec version: 1.0
  */
-import type { ApiResultOfBookingOrderDto, CreateOrderCommand } from '../models'
+import type { ApiResultOfBookingOrderDto, CancelOrderCommand, CreateOrderCommand } from '../models'
 
 import { customRequest } from '../request'
 
@@ -17,18 +17,37 @@ export const getZaloMiniAppOrdersMobile = () => {
       data: createOrderCommand,
     })
   }
+  const postApiZaloMiniAppMobileOrdersCancel = (cancelOrderCommand: CancelOrderCommand) => {
+    return customRequest<ApiResultOfBookingOrderDto>({
+      url: `/api/zalo-mini-app/mobile/orders/cancel`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: cancelOrderCommand,
+    })
+  }
   const getApiZaloMiniAppMobileOrdersPublicId = (publicId: string) => {
     return customRequest<ApiResultOfBookingOrderDto>({
       url: `/api/zalo-mini-app/mobile/orders/${publicId}`,
       method: 'GET',
     })
   }
-  return { postApiZaloMiniAppMobileOrdersCreate, getApiZaloMiniAppMobileOrdersPublicId }
+  return {
+    postApiZaloMiniAppMobileOrdersCreate,
+    postApiZaloMiniAppMobileOrdersCancel,
+    getApiZaloMiniAppMobileOrdersPublicId,
+  }
 }
 export type PostApiZaloMiniAppMobileOrdersCreateResult = NonNullable<
   Awaited<
     ReturnType<
       ReturnType<typeof getZaloMiniAppOrdersMobile>['postApiZaloMiniAppMobileOrdersCreate']
+    >
+  >
+>
+export type PostApiZaloMiniAppMobileOrdersCancelResult = NonNullable<
+  Awaited<
+    ReturnType<
+      ReturnType<typeof getZaloMiniAppOrdersMobile>['postApiZaloMiniAppMobileOrdersCancel']
     >
   >
 >

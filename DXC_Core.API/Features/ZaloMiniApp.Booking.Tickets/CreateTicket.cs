@@ -13,6 +13,7 @@ public static class CreateTicket
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
         public decimal Price { get; set; }
+        public decimal ChildPrice { get; set; }
         public string? PriceCurrency { get; set; } = "VND";
         public int ThuTu { get; set; } = 0;
         public bool IsActive { get; set; } = true;
@@ -24,6 +25,7 @@ public static class CreateTicket
         {
             RuleFor(x => x.Name).NotEmpty().MaximumLength(500);
             RuleFor(x => x.Price).GreaterThanOrEqualTo(0);
+            RuleFor(x => x.ChildPrice).GreaterThanOrEqualTo(0);
         }
     }
 
@@ -43,6 +45,7 @@ public static class CreateTicket
                 Name = request.Name,
                 Description = request.Description,
                 Price = request.Price,
+                ChildPrice = request.ChildPrice,
                 PriceCurrency = request.PriceCurrency,
                 ThuTu = request.ThuTu,
                 IsActive = request.IsActive,

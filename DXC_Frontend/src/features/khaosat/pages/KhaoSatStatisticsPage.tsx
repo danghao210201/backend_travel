@@ -18,14 +18,14 @@ export const KhaoSatStatisticsPage = () => {
 
   const { data: thongKeChiTiet, isLoading: isLoadingChoices, error: errorChoices } = useQuery({
     queryKey: ['khaosat-thongke-chitiet', surveyId],
-    queryFn: () => getKhaoSatAdminApi().getApiZaloMiniAppAdminKhaosatThongKeChiTiet({ SurveyId: Number(surveyId) }),
+    queryFn: () => getKhaoSatAdminApi().getApiZaloMiniAppAdminKhaosatThongkeChitiet({ SurveyId: Number(surveyId) }),
     enabled: !!surveyId && Number.isFinite(surveyId) && Number(surveyId) > 0,
   })
 
   const { data: essayResponsesResult, isLoading: isLoadingEssayResponses, error: errorEssayResponses } = useQuery({
     queryKey: ['khaosat-essay-responses-by-user', surveyId, idUserFilter],
     queryFn: () =>
-      getKhaoSatAdminApi().getApiZaloMiniAppAdminKhaosatTuLuanResponsesByUser({
+      getKhaoSatAdminApi().getApiZaloMiniAppAdminKhaosatTuluanResponsesByUser({
         SurveyId: Number(surveyId),
         IDUser: idUserFilter,
       }),

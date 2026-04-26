@@ -5,6 +5,7 @@ import { FormPageLayout, ActionBarDivider } from '@/shared/components'
 import { ChevronLeft, X, Check, AlertCircle } from 'lucide-react'
 import { useKhaoSatDetail, useUpdateKhaoSat } from '../hooks/useKhaoSat'
 import { KhaoSatForm } from '../components/KhaoSatForm'
+import type { SurveyDetailDto } from '@/api/models'
 
 export const KhaoSatEditPage = () => {
   const navigate = useNavigate()
@@ -24,35 +25,8 @@ export const KhaoSatEditPage = () => {
     return <div className="p-4">Đang tải...</div>
   }
 
-  const src = data as any
-  const initial = src
-    ? {
-        Id: src.id ?? src.Id ?? 0,
-        TenKhaoSat: src.tenKhaoSat ?? src.TenKhaoSat ?? '',
-        ThoiGian: src.thoiGian ?? src.ThoiGian ?? '',
-        IsActive: src.isActive ?? src.IsActive ?? false,
-        DisplayWebsite: src.displayWebsite ?? src.DisplayWebsite ?? '',
-        Header: src.header ?? src.Header ?? '',
-        Footer: src.footer ?? src.Footer ?? '',
-        VeViec: src.veViec ?? src.VeViec ?? '',
-        CreatedAt: src.createdAt ?? src.CreatedAt ?? '',
-        UpdatedAt: src.updatedAt ?? src.UpdatedAt ?? '',
-        Questions: Array.isArray(src.questions)
-          ? src.questions.map((q: any) => ({
-              Id: q.id ?? q.Id ?? 0,
-              NoiDung: q.noiDung ?? q.NoiDung ?? '',
-              CauHoiTuLuan: q.cauHoiTuLuan ?? q.CauHoiTuLuan ?? '',
-              STT: q.stt ?? q.STT ?? 0,
-              Answers: Array.isArray(q.answers)
-                ? q.answers.map((a: any) => ({
-                    Id: a.id ?? a.Id ?? 0,
-                    TraLoi: a.traLoi ?? a.TraLoi ?? '',
-                  }))
-                : [],
-            }))
-          : [],
-      }
-    : null
+  const initial = data as SurveyDetailDto
+  const surveyId = initial?.id || ''
 
   return (
     <FormPageLayout
@@ -61,7 +35,7 @@ export const KhaoSatEditPage = () => {
       description="Cập nhật thông tin khảo sát"
       breadcrumbItems={[
         { label: 'Quản lý khảo sát', href: '/khaosat' },
-        { label: `Sửa #${initial?.Id || ''}`, current: true },
+        { label: `Sửa #${surveyId}`, current: true },
       ]}
       actionBarContent={
         <>

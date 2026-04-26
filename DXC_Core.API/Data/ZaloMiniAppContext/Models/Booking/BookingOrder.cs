@@ -20,7 +20,10 @@ public class BookingOrder
     public virtual Ticket? Ticket { get; set; }
 
     public int Quantity { get; set; } = 1;
+    public int AdultQuantity { get; set; } = 1;
+    public int ChildQuantity { get; set; } = 0;
     public DateTime? DepartureDate { get; set; }
+    public string? DepartureTime { get; set; }
     
     // Payment and status
     public decimal TotalAmount { get; set; }

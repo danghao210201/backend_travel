@@ -39,7 +39,7 @@ export const NewsEditPage = () => {
       title="Cập nhật tin tức"
       description="Chỉnh sửa thông tin bài viết"
       breadcrumbItems={[
-        { label: 'Quản lý tin tức', path: '/news' },
+        { label: 'Quản lý tin tức', href: '/news' },
         { label: 'Cập nhật', current: true },
       ]}
       actionBarContent={
