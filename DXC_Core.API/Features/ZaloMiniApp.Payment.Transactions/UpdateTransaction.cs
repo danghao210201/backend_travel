@@ -50,6 +50,16 @@ public static class UpdateTransaction
             transaction.GatewayMessage = request.GatewayMessage;
             transaction.UpdatedAt = DateTime.UtcNow;
 
+            if (request.Status.Equals("Success", StringComparison.OrdinalIgnoreCase))
+            {
+                var order = await _context.BookingOrders.FirstOrDefaultAsync(x => x.Id == transaction.BookingOrderId, cancellationToken);
+                if (order != null)
+                {
+                    order.PaymentStatus = "Paid";
+                    order.UpdatedAt = DateTime.UtcNow;
+                }
+            }
+
             await _context.SaveChangesAsync(cancellationToken);
 
             return new ApiResult<PaymentTransactionDto>

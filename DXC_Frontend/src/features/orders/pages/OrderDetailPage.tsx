@@ -1,18 +1,67 @@
+import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { FormPageLayout, ActionBarDivider } from '@/shared/components'
-import { ChevronLeft, Edit } from 'lucide-react'
-import { useOrderDetail } from '../hooks/useOrders'
+import { ChevronLeft, Edit, CreditCard } from 'lucide-react'
+import { useOrderDetail, orderKeys } from '../hooks/useOrders'
+import { getZaloMiniAppTransactionsMobile } from '@/api/endpoints/zalo-mini-app-transactions-mobile'
+import { useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 
 export const OrderDetailPage = () => {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
   const { data: detailData, isLoading } = useOrderDetail(id as string)
+  const queryClient = useQueryClient()
+  const [isSimulating, setIsSimulating] = useState(false)
 
   if (isLoading) return <div>Đang tải...</div>
   if (!detailData?.data) return <div>Không tìm thấy đơn hàng</div>
 
   const order = detailData.data
+
+  const handleSimulatePayment = async () => {
+    if (!order.publicId) return
+    try {
+      setIsSimulating(true)
+      const transactionsApi = getZaloMiniAppTransactionsMobile()
+      
+      // 1. Create Transaction
+      const createRes = await transactionsApi.postApiZaloMiniAppMobileTransactionsCreate({
+        bookingOrderPublicId: order.publicId,
+        amount: order.totalAmount || 0,
+        currency: 'VND',
+        paymentMethod: 'ZaloPay'
+      })
+
+      if (!createRes.success || !createRes.data?.publicId) {
+        throw new Error(createRes.message || 'Lỗi khi tạo giao dịch')
+      }
+
+      const transactionPublicId = createRes.data.publicId
+
+      // 2. Simulate Webhook Success
+      const webhookRes = await transactionsApi.postApiZaloMiniAppMobileTransactionsWebhookUpdate({
+        publicId: transactionPublicId,
+        status: 'Success',
+        gatewayTransactionId: 'ZP_SIMULATED_' + Date.now(),
+        gatewayResponseCode: '00',
+        gatewayMessage: 'Thanh toán mô phỏng thành công'
+      })
+
+      if (!webhookRes.success) {
+        throw new Error(webhookRes.message || 'Lỗi khi gọi webhook')
+      }
+
+      toast.success('Mô phỏng thanh toán thành công!')
+      queryClient.invalidateQueries({ queryKey: orderKeys.detail(id as string) })
+      queryClient.invalidateQueries({ queryKey: orderKeys.lists() })
+    } catch (error: any) {
+      toast.error(error.message || 'Mô phỏng thanh toán thất bại')
+    } finally {
+      setIsSimulating(false)
+    }
+  }
 
   return (
     <FormPageLayout
@@ -29,6 +78,21 @@ export const OrderDetailPage = () => {
             <ChevronLeft className="w-4 h-4 text-blue-600" /> Quay lại
           </Button>
           <ActionBarDivider />
+          {order.paymentStatus !== 'Paid' && (
+            <>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={handleSimulatePayment} 
+                disabled={isSimulating}
+                className="gap-2 text-green-600 hover:text-green-700 hover:bg-green-50"
+              >
+                <CreditCard className="w-4 h-4" /> 
+                {isSimulating ? 'Đang xử lý...' : 'Mô phỏng thanh toán'}
+              </Button>
+              <ActionBarDivider />
+            </>
+          )}
           <Button variant="ghost" size="sm" onClick={() => navigate(`/orders/${id}/edit`)} className="gap-2">
             <Edit className="w-4 h-4 text-amber-600" /> Cập nhật trạng thái
           </Button>

@@ -55,7 +55,7 @@ export const OrderTable = ({
       key: 'totalAmount',
       label: 'Tổng tiền',
       render: (_: any, item: OrderTableRow) => (
-        <span className="font-medium text-red-600">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.totalAmount)}</span>
+        <span className="font-medium text-green-600">{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.totalAmount)}</span>
       ),
     },
     {
