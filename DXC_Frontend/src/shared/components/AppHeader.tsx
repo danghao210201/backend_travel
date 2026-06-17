@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { LogOut, Menu, User, Settings } from 'lucide-react'
 import { UserAvatar } from './UserAvatar'
-import logoTayNinh from '@/assets/logo.png'
+// import logoTayNinh from '@/assets/logo.png'
 
 interface User {
   publicId?: string | null
