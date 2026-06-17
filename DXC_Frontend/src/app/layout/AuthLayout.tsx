@@ -21,7 +21,7 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
         {/* Fallback for browsers that don't support video */}
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900" />
       </video>
-      
+
       {/* Overlay for better readability */}
       <div className="absolute inset-0 bg-black/40" />
 
@@ -36,11 +36,11 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
                 alt="Logo"
                 className="h-10 w-10 drop-shadow-lg"
               />
-              <h1 className="text-3xl font-bold text-white drop-shadow-lg">Hệ thống Quản trị Mini App</h1>
+              <h1 className="text-3xl font-bold text-white drop-shadow-lg">Hệ thống quản trị du lịch</h1>
             </div>
             <p className="mt-2 text-white/80">Hệ thống quản trị hiện đại</p>
           </div>
-          
+
           {/* Login form */}
           {children}
         </div>

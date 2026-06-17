@@ -1,5 +1,6 @@
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using DXC_Core.API.Data.ZaloMiniAppContext;
 using DXC_Core.API.Data.ZaloMiniAppContext.Models.Booking;
 using DXC_Core.API.Shared.Contracts;
@@ -14,8 +15,8 @@ public static class CreateOrder
         public string? PhoneNumber { get; set; }
         public string? Email { get; set; }
         public string? Note { get; set; }
-        public int? TourId { get; set; }
-        public int? TicketId { get; set; }
+        public Guid? TourId { get; set; }
+        public Guid? TicketId { get; set; }
         public int Quantity { get; set; } = 1;
         public int AdultQuantity { get; set; } = 1;
         public int ChildQuantity { get; set; } = 0;
@@ -44,6 +45,24 @@ public static class CreateOrder
 
         public async Task<ApiResult<BookingOrderDto>> Handle(Command request, CancellationToken cancellationToken)
         {
+            int? actualTourId = null;
+            if (request.TourId.HasValue)
+            {
+                actualTourId = await _context.Tours
+                    .Where(x => x.PublicId == request.TourId.Value)
+                    .Select(x => x.Id)
+                    .FirstOrDefaultAsync(cancellationToken);
+            }
+
+            int? actualTicketId = null;
+            if (request.TicketId.HasValue)
+            {
+                actualTicketId = await _context.Tickets
+                    .Where(x => x.PublicId == request.TicketId.Value)
+                    .Select(x => x.Id)
+                    .FirstOrDefaultAsync(cancellationToken);
+            }
+
             var order = new BookingOrder
             {
                 BookingCode = $"BK-{DateTime.Now:yyyyMMddHHmmss}-{new Random().Next(1000, 9999)}",
@@ -51,8 +70,8 @@ public static class CreateOrder
                 PhoneNumber = request.PhoneNumber,
                 Email = request.Email,
                 Note = request.Note,
-                TourId = request.TourId > 0 ? request.TourId : null,
-                TicketId = request.TicketId > 0 ? request.TicketId : null,
+                TourId = actualTourId,
+                TicketId = actualTicketId,
                 Quantity = request.Quantity,
                 AdultQuantity = request.AdultQuantity,
                 ChildQuantity = request.ChildQuantity,

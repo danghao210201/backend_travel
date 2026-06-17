@@ -1,9 +1,9 @@
-import { 
-  Layout, 
-  Settings, 
-  Users, 
-  Shield, 
-  FileCheck, 
+import {
+  Layout,
+  Settings,
+  Users,
+  Shield,
+  FileCheck,
   Building2,
   Building,
   Hotel,
@@ -18,7 +18,7 @@ import {
   Newspaper,
   Map,
   ShoppingCart,
-  Ticket
+  Ticket, MessageSquare, XCircle, CheckCircle, ArrowRightLeft, Clock
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -86,50 +86,50 @@ function calculateParentRoles(children?: NavItemConfig[]): string[] {
  *   - 'Xử lý phản ánh' → 'xu_ly_phan_anh'
  *   - 'Phê duyệt phản ánh' → 'phe_duyet_phan_anh'
  */
-// const feedbackMenus: NavItemConfig[] = [
-//   {
-//     id: 'feedback-tracking',
-//     name: 'Theo dõi xử lý',
-//     href: '/feedback-tracking',
-//     icon: MessageSquare,
-//     roles: ['admin', generateRoleCodeFromMenuName('Theo dõi xử lý')],
-//   },
-//   {
-//     id: 'feedback-list',
-//     name: 'Điều phối phản ánh',
-//     href: '/feedback',
-//     icon: ArrowRightLeft,
-//     roles: ['admin', generateRoleCodeFromMenuName('Điều phối phản ánh')],
-//  },
-//   {
-//     id: 'feedback-processing',
-//     name: 'Xử lý phản ánh',
-//     href: '/feedback/processing',
-//     icon: Clock,
-//     roles: ['admin', generateRoleCodeFromMenuName('Xử lý phản ánh')],
-//   },
-//   {
-//     id: 'feedback-approval',
-//     name: 'Phê duyệt phản ánh',
-//     href: '/feedback/approval',
-//     icon: CheckCircle,
-//     roles: ['admin', generateRoleCodeFromMenuName('Phê duyệt phản ánh')],
-//   },
-//   {
-//     id: 'feedback-public',
-//     name: 'Phản ánh hoàn thành',
-//     href: '/feedback/public',
-//     icon: FileCheck,
-//     roles: ['admin', generateRoleCodeFromMenuName('Phản ánh hoàn thành')],
-//   },
-//   {
-//     id: 'feedback-rejected',
-//     name: 'Phản ánh từ chối',
-//     href: '/feedback/rejected',
-//     icon: XCircle,
-//     roles: ['admin', generateRoleCodeFromMenuName('Phản ánh từ chối')],
-//   },
-// ]
+const feedbackMenus: NavItemConfig[] = [
+  {
+    id: 'feedback-tracking',
+    name: 'Theo dõi xử lý',
+    href: '/feedback-tracking',
+    icon: MessageSquare,
+    roles: ['admin', generateRoleCodeFromMenuName('Theo dõi xử lý')],
+  },
+  {
+    id: 'feedback-list',
+    name: 'Điều phối phản ánh',
+    href: '/feedback',
+    icon: ArrowRightLeft,
+    roles: ['admin', generateRoleCodeFromMenuName('Điều phối phản ánh')],
+  },
+  {
+    id: 'feedback-processing',
+    name: 'Xử lý phản ánh',
+    href: '/feedback/processing',
+    icon: Clock,
+    roles: ['admin', generateRoleCodeFromMenuName('Xử lý phản ánh')],
+  },
+  {
+    id: 'feedback-approval',
+    name: 'Phê duyệt phản ánh',
+    href: '/feedback/approval',
+    icon: CheckCircle,
+    roles: ['admin', generateRoleCodeFromMenuName('Phê duyệt phản ánh')],
+  },
+  {
+    id: 'feedback-public',
+    name: 'Phản ánh hoàn thành',
+    href: '/feedback/public',
+    icon: FileCheck,
+    roles: ['admin', generateRoleCodeFromMenuName('Phản ánh hoàn thành')],
+  },
+  {
+    id: 'feedback-rejected',
+    name: 'Phản ánh từ chối',
+    href: '/feedback/rejected',
+    icon: XCircle,
+    roles: ['admin', generateRoleCodeFromMenuName('Phản ánh từ chối')],
+  },
+]
 
 const locationMenus: NavItemConfig[] = [
   {
@@ -335,14 +335,6 @@ const adminMenus: NavItemConfig[] = [
 
 export const navigationConfig: NavItemConfig[] = [
   // Dashboard - Everyone
-  // {
-  //   id: 'dashboard',
-  //   name: 'Trang chủ',
-  //   href: '/dashboard',
-  //   icon: Layout,
-  //   roles: [], // public
-  // },
-  // My Profile - Everyone
   {
     id: 'dashboard',
     name: 'Trang chủ',
@@ -352,13 +344,13 @@ export const navigationConfig: NavItemConfig[] = [
   },
 
   // Feedback Management - Role-based (parent roles auto-calculated)
-  // {
-  //   id: 'feedback',
-  //   name: 'Quản lý phản ánh',
-  //   icon: MessageSquare,
-  //   roles: calculateParentRoles(feedbackMenus),
-  //   children: feedbackMenus,
-  // },
+  {
+    id: 'feedback',
+    name: 'Quản lý phản ánh',
+    icon: MessageSquare,
+    roles: calculateParentRoles(feedbackMenus),
+    children: feedbackMenus,
+  },
 
   // Booking Management - Admin only
   {

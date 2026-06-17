@@ -18,9 +18,13 @@ export interface BookingOrderDto {
   /** @nullable */
   note?: string | null
   /** @nullable */
-  tourId?: number | null
+  tourId?: string | null
   /** @nullable */
-  ticketId?: number | null
+  ticketId?: string | null
+  /** @nullable */
+  serviceType?: string | null
+  /** @nullable */
+  serviceName?: string | null
   quantity?: number
   adultQuantity?: number
   childQuantity?: number

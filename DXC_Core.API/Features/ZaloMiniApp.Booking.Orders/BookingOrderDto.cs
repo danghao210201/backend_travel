@@ -8,8 +8,10 @@ public class BookingOrderDto
     public string? PhoneNumber { get; set; }
     public string? Email { get; set; }
     public string? Note { get; set; }
-    public int? TourId { get; set; }
-    public int? TicketId { get; set; }
+    public Guid? TourId { get; set; }
+    public Guid? TicketId { get; set; }
+    public string? ServiceType { get; set; }
+    public string? ServiceName { get; set; }
     public int Quantity { get; set; }
     public int AdultQuantity { get; set; }
     public int ChildQuantity { get; set; }

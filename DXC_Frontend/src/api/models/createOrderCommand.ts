@@ -15,9 +15,9 @@ export interface CreateOrderCommand {
   /** @nullable */
   note?: string | null
   /** @nullable */
-  tourId?: number | null
+  tourId?: string | null
   /** @nullable */
-  ticketId?: number | null
+  ticketId?: string | null
   quantity?: number
   adultQuantity?: number
   childQuantity?: number

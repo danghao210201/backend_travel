@@ -35,9 +35,9 @@ interface AppHeaderProps {
   isMobile?: boolean
 }
 
-export const AppHeader: React.FC<AppHeaderProps> = ({ 
-  user, 
-  onLogout, 
+export const AppHeader: React.FC<AppHeaderProps> = ({
+  user,
+  onLogout,
   onToggleMobileMenu,
   isMobile
 }) => {
@@ -76,14 +76,14 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 
         {/* Logo and Title */}
         <div className="flex items-center gap-3">
-          <img
+          {/* <img
             src={logoTayNinh}
             alt="Logo"
             className="h-10 w-10"
-          />
+          /> */}
           <div className="hidden md:block border-l border-gray-300 h-8" />
           <h1 className="hidden md:inline text-lg font-bold text-gray-900">
-            Hệ thống quản trị Mini App
+            Hệ thống quản trị du lịch
           </h1>
         </div>
 
@@ -91,8 +91,8 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
         <div className="ml-auto flex items-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 className="gap-3 hover:bg-gray-100"
               >
                 <UserAvatar
@@ -145,9 +145,9 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                 )}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              
+
               {/* Menu Actions */}
-              <DropdownMenuItem 
+              <DropdownMenuItem
                 className="cursor-pointer"
                 onClick={() => navigate('/my-profile')}
               >
@@ -159,8 +159,8 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
                 Cài đặt
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem 
-                variant="destructive" 
+              <DropdownMenuItem
+                variant="destructive"
                 onClick={handleLogout}
                 className="cursor-pointer"
               >

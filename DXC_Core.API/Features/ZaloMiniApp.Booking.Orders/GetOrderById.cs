@@ -25,6 +25,8 @@ public static class GetOrderById
         public async Task<ApiResult<BookingOrderDto>> Handle(Query request, CancellationToken cancellationToken)
         {
             var order = await _context.BookingOrders
+                .Include(x => x.Tour)
+                .Include(x => x.Ticket)
                 .Where(x => x.PublicId == request.PublicId)
                 .Select(x => new BookingOrderDto
                 {
@@ -34,8 +36,10 @@ public static class GetOrderById
                     PhoneNumber = x.PhoneNumber,
                     Email = x.Email,
                     Note = x.Note,
-                    TourId = x.TourId,
-                    TicketId = x.TicketId,
+                    TourId = x.Tour != null ? x.Tour.PublicId : null,
+                    TicketId = x.Ticket != null ? x.Ticket.PublicId : null,
+                    ServiceType = x.TourId != null ? "Tour" : (x.TicketId != null ? "Ticket" : "Khác"),
+                    ServiceName = x.Tour != null ? x.Tour.Name : (x.Ticket != null ? x.Ticket.Name : "Khác"),
                     Quantity = x.Quantity,
                     AdultQuantity = x.AdultQuantity,
                     ChildQuantity = x.ChildQuantity,
