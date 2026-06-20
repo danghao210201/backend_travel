@@ -4,10 +4,8 @@ import { Button } from '@/components/ui/button'
 import { FormPageLayout, ActionBarDivider } from '@/shared/components'
 import { ChevronLeft, Edit, QrCode, Copy, CheckCircle2, Loader2 } from 'lucide-react'
 import { useOrderDetail, orderKeys } from '../hooks/useOrders'
-import { getZaloMiniAppTransactionsMobile } from '@/api/endpoints/zalo-mini-app-transactions-mobile'
 import { getZaloMiniAppOrdersMobile } from '@/api/endpoints/zalo-mini-app-orders-mobile'
 import { useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
 import {
   Dialog,
   DialogContent,
@@ -15,10 +13,6 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog'
-
-// URL backend để điện thoại có thể truy cập (thay bằng IP LAN hoặc ngrok khi test thật)
-// Ví dụ: 'http://192.168.1.10:5293' hoặc 'https://abc.ngrok.io'
-const BACKEND_URL_FOR_QR = import.meta.env.VITE_BACKEND_QR_URL ?? 'http://localhost:5293'
 
 
 export const OrderDetailPage = () => {
@@ -30,8 +24,6 @@ export const OrderDetailPage = () => {
   // QR dialog state
   const [qrOpen, setQrOpen] = useState(false)
   const [qrUrl, setQrUrl] = useState<string | null>(null)
-  // @ts-ignore
-  const [isGenerating, setIsGenerating] = useState(false)
   const [copied, setCopied] = useState(false)
   const [pollStatus, setPollStatus] = useState<'waiting' | 'paid'>('waiting')
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -69,37 +61,6 @@ export const OrderDetailPage = () => {
         // ignore polling errors
       }
     }, 3000)
-  }
-
-  // --- Tạo QR: CreateTransaction → lấy publicId → build confirm URL ---
-  // @ts-ignore
-  const handleGenerateQR = async () => {
-    if (!order.publicId) return
-    try {
-      setIsGenerating(true)
-      const transactionsApi = getZaloMiniAppTransactionsMobile()
-
-      const createRes = await transactionsApi.postApiZaloMiniAppMobileTransactionsCreate({
-        bookingOrderPublicId: order.publicId,
-        amount: order.totalAmount || 0,
-        currency: 'VND',
-        paymentMethod: 'QR_CODE',
-      })
-
-      if (!createRes.success || !createRes.data?.publicId) {
-        throw new Error(createRes.message || 'Lỗi khi tạo giao dịch')
-      }
-
-      const confirmUrl = `${BACKEND_URL_FOR_QR}/api/zalo-mini-app/mobile/transactions/confirm/${createRes.data.publicId}`
-      setQrUrl(confirmUrl)
-      setQrOpen(true)
-      setPollStatus('waiting')
-      startPolling()
-    } catch (error: any) {
-      toast.error(error.message || 'Tạo mã QR thất bại')
-    } finally {
-      setIsGenerating(false)
-    }
   }
 
   const handleCopyUrl = () => {
@@ -175,13 +136,13 @@ export const OrderDetailPage = () => {
                   Đang chờ xác nhận thanh toán...
                 </div>
 
-                {/* Copy URL (dùng khi test trên browser) */}
+                {/* Copy URL */}
                 <button
                   onClick={handleCopyUrl}
                   className="flex items-center gap-1.5 text-xs text-blue-500 hover:text-blue-700 underline underline-offset-2 transition-colors"
                 >
                   {copied ? <CheckCircle2 className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
-                  {copied ? 'Đã sao chép!' : 'Sao chép link (test trên browser)'}
+                  {copied ? 'Đã sao chép!' : 'Sao chép link'}
                 </button>
               </>
             )}
@@ -203,23 +164,6 @@ export const OrderDetailPage = () => {
               <ChevronLeft className="w-4 h-4 text-blue-600" /> Quay lại
             </Button>
             <ActionBarDivider />
-            {order.paymentStatus !== 'Paid' && (
-              <>
-                {/* <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleGenerateQR}
-                  disabled={isGenerating}
-                  className="gap-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                >
-                  {isGenerating
-                    ? <Loader2 className="w-4 h-4 animate-spin" />
-                    : <QrCode className="w-4 h-4" />}
-                  {isGenerating ? 'Đang tạo...' : 'Thanh toán QR'}
-                </Button> */}
-                <ActionBarDivider />
-              </>
-            )}
             <Button variant="ghost" size="sm" onClick={() => navigate(`/orders/${id}/edit`)} className="gap-2">
               <Edit className="w-4 h-4 text-amber-600" /> Cập nhật trạng thái
             </Button>
@@ -285,10 +229,11 @@ export const OrderDetailPage = () => {
               <div>
                 <p className="text-sm text-gray-500">Trạng thái xử lý</p>
                 <p className="font-medium">
-                  <span className={`px-3 py-1 text-sm font-medium rounded-full inline-block mt-1 ${order.status === 'Confirmed' ? 'bg-green-100 text-green-700' :
+                  <span className={`px-3 py-1 text-sm font-medium rounded-full inline-block mt-1 ${
+                    order.status === 'Confirmed' ? 'bg-green-100 text-green-700' :
                     order.status === 'Cancelled' ? 'bg-red-100 text-red-700' :
-                      'bg-yellow-100 text-yellow-700'
-                    }`}>
+                    'bg-yellow-100 text-yellow-700'
+                  }`}>
                     {order.status || 'Pending'}
                   </span>
                 </p>
@@ -296,9 +241,10 @@ export const OrderDetailPage = () => {
               <div>
                 <p className="text-sm text-gray-500">Trạng thái thanh toán</p>
                 <p className="font-medium">
-                  <span className={`px-3 py-1 text-sm font-medium rounded-full inline-block mt-1 ${order.paymentStatus === 'Paid' ? 'bg-green-100 text-green-700' :
+                  <span className={`px-3 py-1 text-sm font-medium rounded-full inline-block mt-1 ${
+                    order.paymentStatus === 'Paid' ? 'bg-green-100 text-green-700' :
                     'bg-gray-100 text-gray-700'
-                    }`}>
+                  }`}>
                     {order.paymentStatus || 'Unpaid'}
                   </span>
                 </p>

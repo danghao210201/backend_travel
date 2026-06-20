@@ -19,15 +19,15 @@ export const useCreateDepartment = () => {
       name?: string | null
       code?: string | null
       description?: string | null
-      contactEmail?: string | null // TODO: Backend to add support
-      contactPhone?: string | null // TODO: Backend to add support
+      contactEmail?: string | null
+      contactPhone?: string | null
       organizationPublicId?: string
     }) => getCommonAdmin().postApiAdminCommonDepartmentsCreate({
       organizationPublicId: data.organizationPublicId || '',
       code: data.code || null,
       name: data.name || null,
       description: data.description || null,
-      // Contact fields will be added when backend API is updated
+
     }),
     onSuccess: (result) => {
       if (result?.success) {
@@ -56,15 +56,15 @@ export const useUpdateDepartment = () => {
       name?: string | null
       code?: string | null
       description?: string | null
-      contactEmail?: string | null // TODO: Backend to add support
-      contactPhone?: string | null // TODO: Backend to add support
+      contactEmail?: string | null
+      contactPhone?: string | null
       organizationPublicId?: string
     }) => getCommonAdmin().postApiAdminCommonDepartmentsUpdate({
       publicId: data.publicId,
       code: data.code || null,
       name: data.name || null,
       description: data.description || null,
-      // Contact fields will be added when backend API is updated
+
     }),
     onSuccess: (result) => {
       if (result?.success) {

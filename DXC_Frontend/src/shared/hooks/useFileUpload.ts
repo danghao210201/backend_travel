@@ -36,9 +36,6 @@ export const useFileUpload = (options?: UseFileUploadOptions) => {
 
   const uploadMutation = useMutation({
     mutationFn: async (_body: PostApiFilesUploadBody) => {
-      // TODO: Replace with actual API call
-      // const response = await getFiles().postApiFilesUpload(body)
-      // return response
       return { success: true, data: [] }
     },
     onSuccess: (result: any) => {
