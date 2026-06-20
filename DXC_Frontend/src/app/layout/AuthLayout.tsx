@@ -1,6 +1,6 @@
 import React from 'react'
 import bgvideo from '@/assets/bgvideo.mp4'
-import logoTayNinh from '@/assets/logo.png'
+// import logoTayNinh from '@/assets/logo.png'
 
 interface AuthLayoutProps {
   children: React.ReactNode
@@ -31,11 +31,11 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
           {/* Logo section */}
           <div className="mb-8 text-center">
             <div className="flex items-center justify-center space-x-3">
-              <img
+              {/* <img
                 src={logoTayNinh}
                 alt="Logo"
                 className="h-10 w-10 drop-shadow-lg"
-              />
+              /> */}
               <h1 className="text-3xl font-bold text-white drop-shadow-lg">Hệ thống quản trị du lịch</h1>
             </div>
             <p className="mt-2 text-white/80">Hệ thống quản trị hiện đại</p>

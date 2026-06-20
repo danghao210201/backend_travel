@@ -30,6 +30,7 @@ export const OrderDetailPage = () => {
   // QR dialog state
   const [qrOpen, setQrOpen] = useState(false)
   const [qrUrl, setQrUrl] = useState<string | null>(null)
+  // @ts-ignore
   const [isGenerating, setIsGenerating] = useState(false)
   const [copied, setCopied] = useState(false)
   const [pollStatus, setPollStatus] = useState<'waiting' | 'paid'>('waiting')
@@ -71,6 +72,7 @@ export const OrderDetailPage = () => {
   }
 
   // --- Tạo QR: CreateTransaction → lấy publicId → build confirm URL ---
+  // @ts-ignore
   const handleGenerateQR = async () => {
     if (!order.publicId) return
     try {
@@ -203,7 +205,7 @@ export const OrderDetailPage = () => {
             <ActionBarDivider />
             {order.paymentStatus !== 'Paid' && (
               <>
-                <Button
+                {/* <Button
                   variant="ghost"
                   size="sm"
                   onClick={handleGenerateQR}
@@ -214,7 +216,7 @@ export const OrderDetailPage = () => {
                     ? <Loader2 className="w-4 h-4 animate-spin" />
                     : <QrCode className="w-4 h-4" />}
                   {isGenerating ? 'Đang tạo...' : 'Thanh toán QR'}
-                </Button>
+                </Button> */}
                 <ActionBarDivider />
               </>
             )}
@@ -283,11 +285,10 @@ export const OrderDetailPage = () => {
               <div>
                 <p className="text-sm text-gray-500">Trạng thái xử lý</p>
                 <p className="font-medium">
-                  <span className={`px-3 py-1 text-sm font-medium rounded-full inline-block mt-1 ${
-                    order.status === 'Confirmed' ? 'bg-green-100 text-green-700' :
+                  <span className={`px-3 py-1 text-sm font-medium rounded-full inline-block mt-1 ${order.status === 'Confirmed' ? 'bg-green-100 text-green-700' :
                     order.status === 'Cancelled' ? 'bg-red-100 text-red-700' :
-                    'bg-yellow-100 text-yellow-700'
-                  }`}>
+                      'bg-yellow-100 text-yellow-700'
+                    }`}>
                     {order.status || 'Pending'}
                   </span>
                 </p>
@@ -295,10 +296,9 @@ export const OrderDetailPage = () => {
               <div>
                 <p className="text-sm text-gray-500">Trạng thái thanh toán</p>
                 <p className="font-medium">
-                  <span className={`px-3 py-1 text-sm font-medium rounded-full inline-block mt-1 ${
-                    order.paymentStatus === 'Paid' ? 'bg-green-100 text-green-700' :
+                  <span className={`px-3 py-1 text-sm font-medium rounded-full inline-block mt-1 ${order.paymentStatus === 'Paid' ? 'bg-green-100 text-green-700' :
                     'bg-gray-100 text-gray-700'
-                  }`}>
+                    }`}>
                     {order.paymentStatus || 'Unpaid'}
                   </span>
                 </p>
